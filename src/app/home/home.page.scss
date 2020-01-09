@@ -1,1 +1,33 @@
+.grid-container {
+    height: 100%;
+    width: 100%;
+    display: grid;
+    grid-template-areas:
+        "top-left top-center top-right"
+        "left center right"
+        "bot-left bot-center bot-right";
 
+    .grid-item {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.logo {
+    grid-area: top-center;
+
+    ion-img {
+        margin: auto;
+        height: 100px;
+        width: 100px;
+    }
+}
+
+.randomize-button {
+    grid-area: center;
+}
+
+.filter-button {
+    grid-area: bot-center;
+}

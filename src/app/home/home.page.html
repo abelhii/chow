@@ -1,14 +1,15 @@
-<ion-header>
-  <ion-toolbar>
-    <ion-title>
-      Ionic Blank
-    </ion-title>
-  </ion-toolbar>
-</ion-header>
-
 <ion-content>
-  <div class="ion-padding">
-    The world is your oyster.
-    <p>If you get lost, the <a target="_blank" rel="noopener" href="https://ionicframework.com/docs/">docs</a> will be your guide.</p>
-  </div>
+	<div class="grid-container ion-padding">
+		<div class="logo grid-item">
+			<ion-img [src]="logoPath"></ion-img>
+			<ion-title size="large">Chow</ion-title>
+		</div>
+		<div class="randomize-button grid-item">
+			<ion-button size="large" [routerLink]="['../suggestions']">
+				<ion-icon slot="icon-only" name="search"></ion-icon>
+			</ion-button>
+		</div>
+		<div class="filter-button grid-item">
+		</div>
+	</div>
 </ion-content>
