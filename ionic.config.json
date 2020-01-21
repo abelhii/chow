@@ -1,5 +1,7 @@
 {
   "name": "chow",
-  "integrations": {},
+  "integrations": {
+    "cordova": {}
+  },
   "type": "angular"
 }
