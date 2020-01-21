@@ -10,13 +10,19 @@
 	<ion-card *ngFor="let place of suggestionsList; let i = index" [routerLink]="['details', place.id]">
 		<img src="{{place.photoURL}}" />
 		<ion-card-header>
-			<ion-card-subtitle>Destination</ion-card-subtitle>
 			<ion-card-title>
 				{{place.name}}
 				<ion-thumbnail slot="end">
 					<img src="{{place.icon}}">
 				</ion-thumbnail>
 			</ion-card-title>
+			<ion-card-subtitle>
+				{{place.street}},
+				{{place.postcode}}, <br>
+				{{place.city}}, <br>
+				{{place.state}}, <br>
+				{{place.country}}
+			</ion-card-subtitle>
 		</ion-card-header>
 		<!-- <ion-card-content>
 			Founded in 1829 on an isthmus between Lake Monona and Lake Mendota, Madison was named the capital of the
