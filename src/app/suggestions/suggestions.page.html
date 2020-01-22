@@ -7,26 +7,62 @@
 </ion-header>
 
 <ion-content>
-	<ion-card *ngFor="let place of suggestionsList; let i = index" [routerLink]="['details', place.id]">
-		<img src="{{place.photoURL}}" />
-		<ion-card-header>
-			<ion-card-title>
-				{{place.name}}
-				<ion-thumbnail slot="end">
-					<img src="{{place.icon}}">
-				</ion-thumbnail>
-			</ion-card-title>
-			<ion-card-subtitle>
-				{{place.street}},
-				{{place.postcode}}, <br>
-				{{place.city}}, <br>
-				{{place.state}}, <br>
-				{{place.country}}
-			</ion-card-subtitle>
-		</ion-card-header>
-		<!-- <ion-card-content>
-			Founded in 1829 on an isthmus between Lake Monona and Lake Mendota, Madison was named the capital of the
-			Wisconsin Territory in 1836.
-		</ion-card-content> -->
-	</ion-card>
+	<!--Google-->
+
+	<div *ngIf="suggestionsList.length > 0">
+		<ion-card *ngFor="let place of suggestionsList; let i = index"
+			[routerLink]="['details', place.id]">
+			<ion-card-header>
+				<ion-card-title>
+					<div style="display:grid; grid-template-columns:10fr 1fr">
+						{{place.name}}
+						<img src="{{place.icon}}" height="20px">
+					</div>
+				</ion-card-title>
+				<ion-card-subtitle>
+					{{place.vicinity}}
+				</ion-card-subtitle>
+			</ion-card-header>
+		</ion-card>
+	</div>
+
+	<!--Nominatim-->
+
+	<div *ngIf="suggestionsNominatimList.length > 0">
+		<ion-card *ngIf="randomPlace">
+			<ion-card-header>
+				<ion-card-title>
+					<div style="display:grid; grid-template-columns:10fr 1fr">
+						{{randomPlace.address[randomPlace.type]}}
+						<img src="{{randomPlace.icon}}" height="20px">
+					</div>
+				</ion-card-title>
+				<ion-card-subtitle>
+					{{randomPlace.address.road}}, <br>
+					{{randomPlace.address.postcode}}, <br>
+					{{randomPlace.address.city}}, <br>
+					{{randomPlace.address.state}}, <br>
+					{{randomPlace.address.country}}
+				</ion-card-subtitle>
+			</ion-card-header>
+		</ion-card>
+
+		<ion-card *ngFor="let place of suggestionsList; let i = index" [routerLink]="['details', place.id]">
+			<ion-card-header>
+				<ion-card-title>
+					<div style="display:grid; grid-template-columns:10fr 1fr">
+						{{place.address[place.type]}}
+						<img src="{{place.icon}}" height="20px">
+					</div>
+				</ion-card-title>
+				<ion-card-subtitle>
+					{{place.address.road}}, <br>
+					{{place.address.postcode}}, <br>
+					{{place.address.city}}, <br>
+					{{place.address.state}}, <br>
+					{{place.address.country}}
+				</ion-card-subtitle>
+			</ion-card-header>
+		</ion-card>
+	</div>
 </ion-content>

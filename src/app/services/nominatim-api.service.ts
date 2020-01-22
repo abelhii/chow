@@ -36,7 +36,7 @@ export class NominatimAPIService {
 				let headers = {
 					q: place.display_name + ',food',
 					addressdetails: '1',
-					format: 'geocodejson'
+					format: 'json'
 				};
 
 				let url = this.nominatimSearchURL + new URLSearchParams(headers).toString();
