@@ -3,7 +3,8 @@ import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { NominatimAPIService } from '../services/nominatim-api.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { FeatureCollection, PropertyGeocoding } from '../models/nominatim';
+import { FeatureCollection, PropertyGeocoding, SearchPlace } from '../models/nominatim';
+import { GoogleAPIService } from '../services/google-api.service';
 
 @Component({
 	selector: 'app-suggestions',
@@ -13,8 +14,11 @@ import { FeatureCollection, PropertyGeocoding } from '../models/nominatim';
 export class SuggestionsPage implements OnInit {
 
 	suggestionsList: any[] = [];
+	suggestionsNominatimList: SearchPlace[] = [];
+	randomPlace: SearchPlace;
 
 	constructor(
+		private _googleApiService: GoogleAPIService,
 		private _nominatimApiService: NominatimAPIService,
 		private geolocation: Geolocation,
 		private router: Router
@@ -22,14 +26,31 @@ export class SuggestionsPage implements OnInit {
 
 	ngOnInit() {
 		this.geolocation.getCurrentPosition().then((resp) => {
-			this._nominatimApiService.getPlacesByLatLng(resp.coords.latitude, resp.coords.longitude)
-				.subscribe((result: FeatureCollection) => {
-					this.suggestionsList = _.map(result.features, x => { return x.properties.geocoding });
-					console.log(this.suggestionsList);
-				});
+			// this.getPlacesFromNominatim(resp);
+			this.getPlacesFromGoogle(resp);
 		}).catch((error) => {
 			console.log('Error getting location', error);
 		});
+	}
+
+	getPlacesFromGoogle(resp) {
+		console.log(resp);
+		this._googleApiService.getPlacesByUserLatLng(resp.coords.latitude, resp.coords.longitude)
+			.subscribe(result => {
+				console.log('result', result);
+				this.suggestionsList = result;
+			});
+	}
+
+	getPlacesFromNominatim(resp) {
+		this._nominatimApiService.getPlacesByLatLng(resp.coords.latitude, resp.coords.longitude)
+			.subscribe((result: SearchPlace[]) => {
+				console.log(result);
+
+				let randNum = Math.round(Math.random() * result.length);
+				this.suggestionsList = result;
+				this.randomPlace = result[randNum];
+			});
 	}
 
 	// getPlacePhotoURL(placesList: any[]) {
