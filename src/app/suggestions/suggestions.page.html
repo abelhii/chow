@@ -10,8 +10,23 @@
 	<!--Google-->
 
 	<div *ngIf="suggestionsList.length > 0">
-		<ion-card *ngFor="let place of suggestionsList; let i = index"
-			[routerLink]="['details', place.id]">
+		<ion-card *ngIf="randomPlace" target="_blank">
+			<img src="{{_googleApiService.getPlacePhotoUrl(randomPlace.photos, true)}}">
+			<ion-card-header>
+				<ion-card-title>
+					<div style="display:grid; grid-template-columns:10fr 1fr">
+						{{randomPlace.name}}
+						<img src="{{randomPlace.icon}}" height="20px">
+					</div>
+				</ion-card-title>
+				<ion-card-subtitle>
+					{{randomPlace.vicinity}}
+				</ion-card-subtitle>
+			</ion-card-header>
+		</ion-card>
+
+		<ion-card *ngFor="let place of suggestionsList; let i = index">
+			<img src="{{_googleApiService.getPlacePhotoUrl(place.photos, true)}}">
 			<ion-card-header>
 				<ion-card-title>
 					<div style="display:grid; grid-template-columns:10fr 1fr">
@@ -29,20 +44,20 @@
 	<!--Nominatim-->
 
 	<div *ngIf="suggestionsNominatimList.length > 0">
-		<ion-card *ngIf="randomPlace">
+		<ion-card *ngIf="randomNominatimPlace">
 			<ion-card-header>
 				<ion-card-title>
 					<div style="display:grid; grid-template-columns:10fr 1fr">
-						{{randomPlace.address[randomPlace.type]}}
-						<img src="{{randomPlace.icon}}" height="20px">
+						{{randomNominatimPlace.address[randomNominatimPlace.type]}}
+						<img src="{{randomNominatimPlace.icon}}" height="20px">
 					</div>
 				</ion-card-title>
 				<ion-card-subtitle>
-					{{randomPlace.address.road}}, <br>
-					{{randomPlace.address.postcode}}, <br>
-					{{randomPlace.address.city}}, <br>
-					{{randomPlace.address.state}}, <br>
-					{{randomPlace.address.country}}
+					{{randomNominatimPlace.address.road}}, <br>
+					{{randomNominatimPlace.address.postcode}}, <br>
+					{{randomNominatimPlace.address.city}}, <br>
+					{{randomNominatimPlace.address.state}}, <br>
+					{{randomNominatimPlace.address.country}}
 				</ion-card-subtitle>
 			</ion-card-header>
 		</ion-card>

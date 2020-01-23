@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import * as _ from 'lodash';
 import { NominatimAPIService } from '../services/nominatim-api.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { FeatureCollection, PropertyGeocoding, SearchPlace } from '../models/nominatim';
+import { SearchPlace } from '../models/nominatim';
 import { GoogleAPIService } from '../services/google-api.service';
 
 @Component({
@@ -13,15 +12,15 @@ import { GoogleAPIService } from '../services/google-api.service';
 })
 export class SuggestionsPage implements OnInit {
 
-	suggestionsList: any[] = [];
+	suggestionsList: google.maps.places.PlaceResult[] = [];
+	randomPlace: google.maps.places.PlaceResult;
 	suggestionsNominatimList: SearchPlace[] = [];
-	randomPlace: SearchPlace;
+	randomNominatimPlace: SearchPlace;
 
 	constructor(
 		private _googleApiService: GoogleAPIService,
 		private _nominatimApiService: NominatimAPIService,
-		private geolocation: Geolocation,
-		private router: Router
+		private geolocation: Geolocation
 	) { }
 
 	ngOnInit() {
@@ -34,22 +33,26 @@ export class SuggestionsPage implements OnInit {
 	}
 
 	getPlacesFromGoogle(resp) {
-		console.log(resp);
 		this._googleApiService.getPlacesByUserLatLng(resp.coords.latitude, resp.coords.longitude)
-			.subscribe(result => {
-				console.log('result', result);
-				this.suggestionsList = result;
+			.subscribe((result: google.maps.places.PlaceResult[]) => {
+				console.log('google', result);
+
+				this.suggestionsList = _.sortBy(result, x => x.photos);
+
+				// get details of place by random number
+				let randNum = Math.round(Math.random() * result.length);
+				this.randomPlace = result[randNum];
 			});
 	}
 
 	getPlacesFromNominatim(resp) {
 		this._nominatimApiService.getPlacesByLatLng(resp.coords.latitude, resp.coords.longitude)
 			.subscribe((result: SearchPlace[]) => {
-				console.log(result);
+				console.log('nominatim', result);
 
 				let randNum = Math.round(Math.random() * result.length);
-				this.suggestionsList = result;
-				this.randomPlace = result[randNum];
+				this.suggestionsNominatimList = result;
+				this.randomNominatimPlace = result[randNum];
 			});
 	}
 
