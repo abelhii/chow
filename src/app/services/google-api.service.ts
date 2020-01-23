@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, BehaviorSubject } from 'rxjs';
+import * as _ from 'lodash';
 
 @Injectable({
 	providedIn: 'root'
@@ -14,15 +15,14 @@ export class GoogleAPIService {
 	map: google.maps.Map;
 	placesService: google.maps.places.PlacesService;
 
-	nearbyPlaces: any;
-	testString: string;
+	nearbyPlaces: google.maps.places.PlaceResult[];
 
 	constructor(private http: HttpClient) { }
 
 	getPlacesByUserLatLng(lat: number, lng: number): Observable<any> {
 		let userLocation = new google.maps.LatLng(lat, lng);
 
-		let request = {
+		let request: google.maps.places.PlaceSearchRequest = {
 			location: userLocation,
 			radius: 1000, // can't use radius with rankBy distance
 			// rankBy: google.maps.places.RankBy.DISTANCE,
@@ -34,24 +34,64 @@ export class GoogleAPIService {
 			console.log('initialize places');
 		}
 
-		// TODO: Store list in local cache
-		return new Observable<any>(observer => {
+		let dataSource = new BehaviorSubject<google.maps.places.PlaceResult[]>(null);
+		let data = dataSource.asObservable();
+
+		return new Observable<google.maps.places.PlaceResult[]>((observer) => {
 			if (this.nearbyPlaces && this.nearbyPlaces.length > 0) {
-				observer.next(this.nearbyPlaces);
 				console.log("from local");
+				observer.next(this.nearbyPlaces);
 			}
 			else {
 				console.log("from api");
-				let testList = [];
 				this.placesService.nearbySearch(request, function (results, status) {
 					if (status == google.maps.places.PlacesServiceStatus.OK) {
-						testList = results;
+						dataSource.next(results);
 						observer.next(results);
 					}
 				});
-				this.nearbyPlaces = testList;
+
+				data.subscribe(data => {
+					this.nearbyPlaces = data;
+				})
 			}
 		});
+	}
+
+	getPlaceDetailsByPlaceId(placeId: string): Observable<any> {
+		let request: google.maps.places.PlaceDetailsRequest = {
+			placeId: placeId,
+			fields: [
+				'place_id',
+				'plus_code',
+				'name',
+				'address_component', 
+				'adr_address', 
+				'formatted_address', 
+				'photo', 
+				'icon',
+				'type', 
+				'url']
+		}
+
+		return new Observable<google.maps.places.PlaceResult>((observer) => {
+			this.placesService.getDetails(request, function (place, status) {
+				if (status == google.maps.places.PlacesServiceStatus.OK) {
+					observer.next(place);
+				}
+			});
+		});
+	}
+
+	getPlacePhotoUrl(placePhotos: google.maps.places.PlacePhoto[], landscape: boolean): string{
+		let photos = placePhotos;
+		if(placePhotos && placePhotos.length > 1){
+			photos = _.filter(placePhotos, x => { 
+				return landscape ? x.width > x.height : x.width < x.height;
+			});
+		}
+
+		return (photos && photos[0] != null) ? photos[0].getUrl({}) : "";
 	}
 
 	getPlaces(): Observable<any> {
