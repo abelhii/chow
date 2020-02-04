@@ -6,11 +6,11 @@
 	</ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content fullscreen>
 	<!--Google-->
 
 	<div *ngIf="suggestionsList.length > 0">
-		<ion-card *ngIf="randomPlace" target="_blank">
+		<ion-card *ngIf="randomPlace" target="_blank" (click)="_googleApiService.openInMaps(randomPlace)">
 			<img src="{{_googleApiService.getPlacePhotoUrl(randomPlace.photos, true)}}">
 			<ion-card-header>
 				<ion-card-title>
@@ -25,20 +25,30 @@
 			</ion-card-header>
 		</ion-card>
 
-		<ion-card *ngFor="let place of suggestionsList; let i = index">
-			<img src="{{_googleApiService.getPlacePhotoUrl(place.photos, true)}}">
-			<ion-card-header>
-				<ion-card-title>
-					<div style="display:grid; grid-template-columns:10fr 1fr">
-						{{place.name}}
-						<img src="{{place.icon}}" height="20px">
-					</div>
-				</ion-card-title>
-				<ion-card-subtitle>
-					{{place.vicinity}}
-				</ion-card-subtitle>
-			</ion-card-header>
-		</ion-card>
+		<ion-item lines="full">
+			<ion-label>
+				Don't like your choice? Swipe for more below
+			</ion-label>
+		</ion-item>
+
+		<ion-slides pager="true" [options]="slideOptions">
+			<ion-slide *ngFor="let place of suggestionsList; let i = index">
+				<ion-card style="min-height:430px;" (click)="_googleApiService.openInMaps(place)">
+					<img src="{{_googleApiService.getPlacePhotoUrl(place.photos, true)}}" style="padding:15% 0;">
+					<ion-card-header>
+						<ion-card-title>
+							<div style="display:grid; grid-template-columns:10fr 1fr">
+								{{place.name}}
+								<img src="{{place.icon}}" height="20px">
+							</div>
+						</ion-card-title>
+						<ion-card-subtitle>
+							{{place.vicinity}}
+						</ion-card-subtitle>
+					</ion-card-header>
+				</ion-card>
+			</ion-slide>
+		</ion-slides>
 	</div>
 
 	<!--Nominatim-->
