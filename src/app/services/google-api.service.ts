@@ -3,6 +3,8 @@ import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import * as _ from 'lodash';
+import { Platform } from '@ionic/angular';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Injectable({
 	providedIn: 'root'
@@ -14,10 +16,13 @@ export class GoogleAPIService {
 
 	map: google.maps.Map;
 	placesService: google.maps.places.PlacesService;
-
 	nearbyPlaces: google.maps.places.PlaceResult[];
 
-	constructor(private http: HttpClient) { }
+	constructor(
+		private http: HttpClient,
+		private platform: Platform,
+		private iab: InAppBrowser
+	) { }
 
 	getPlacesByUserLatLng(lat: number, lng: number): Observable<any> {
 		let userLocation = new google.maps.LatLng(lat, lng);
@@ -65,12 +70,12 @@ export class GoogleAPIService {
 				'place_id',
 				'plus_code',
 				'name',
-				'address_component', 
-				'adr_address', 
-				'formatted_address', 
-				'photo', 
+				'address_component',
+				'adr_address',
+				'formatted_address',
+				'photo',
 				'icon',
-				'type', 
+				'type',
 				'url']
 		}
 
@@ -83,10 +88,10 @@ export class GoogleAPIService {
 		});
 	}
 
-	getPlacePhotoUrl(placePhotos: google.maps.places.PlacePhoto[], landscape: boolean): string{
+	getPlacePhotoUrl(placePhotos: google.maps.places.PlacePhoto[], landscape: boolean): string {
 		let photos = placePhotos;
-		if(placePhotos && placePhotos.length > 1){
-			photos = _.filter(placePhotos, x => { 
+		if (placePhotos && placePhotos.length > 1) {
+			photos = _.filter(placePhotos, x => {
 				return landscape ? x.width > x.height : x.width < x.height;
 			});
 		}
@@ -110,5 +115,14 @@ export class GoogleAPIService {
 
 		return url;
 		// return this.http.get(url);
+	}
+
+	openInMaps(place: google.maps.places.PlaceResult) {
+		let destination = place.geometry.location.lat() + "," + place.geometry.location.lng();
+		if (this.platform.is('ios')) {
+			this.iab.create("maps://?q=" + destination, "_system");
+		} else {
+			this.iab.create("https://www.google.com/maps/search/" + destination, "_system");
+		}
 	}
 }

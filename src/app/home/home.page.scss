@@ -9,6 +9,7 @@
 
     .grid-item {
         display: flex;
+        flex-direction: column;
         align-items: center;
         justify-content: center;
     }
@@ -19,7 +20,6 @@
 
     ion-img {
         margin: auto;
-        height: 100px;
         width: 100px;
     }
 }

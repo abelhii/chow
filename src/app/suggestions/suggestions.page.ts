@@ -17,6 +17,11 @@ export class SuggestionsPage implements OnInit {
 	suggestionsNominatimList: SearchPlace[] = [];
 	randomNominatimPlace: SearchPlace;
 
+	slideOptions = {
+		direction: 'horizontal',
+		speed: 300
+	};
+
 	constructor(
 		private _googleApiService: GoogleAPIService,
 		private _nominatimApiService: NominatimAPIService,

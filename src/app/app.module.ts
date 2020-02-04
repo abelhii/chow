@@ -10,6 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
+import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @NgModule({
 	declarations: [
@@ -26,6 +27,7 @@ import { Geolocation } from '@ionic-native/geolocation/ngx';
 		StatusBar,
 		SplashScreen,
 		Geolocation,
+		InAppBrowser,
 		{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
 	],
 	bootstrap: [AppComponent]
