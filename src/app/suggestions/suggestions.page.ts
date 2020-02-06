@@ -30,7 +30,6 @@ export class SuggestionsPage implements OnInit {
 
 	ngOnInit() {
 		this.geolocation.getCurrentPosition().then((resp) => {
-			// this.getPlacesFromNominatim(resp);
 			this.getPlacesFromGoogle(resp);
 		}).catch((error) => {
 			console.log('Error getting location', error);
@@ -40,7 +39,6 @@ export class SuggestionsPage implements OnInit {
 	getPlacesFromGoogle(resp) {
 		this._googleApiService.getPlacesByUserLatLng(resp.coords.latitude, resp.coords.longitude)
 			.subscribe((result: google.maps.places.PlaceResult[]) => {
-				console.log('google', result);
 				this.suggestionsList = result;
 				this.getRandomPlace();
 			});
@@ -50,11 +48,17 @@ export class SuggestionsPage implements OnInit {
 		this.randomPlace = _.sample(this.suggestionsList);
 	}
 
+	getPlacePhotoUrl(placePhotos: google.maps.places.PlacePhoto[], landscape: boolean) {
+		return this._googleApiService.getPlacePhotoUrl(placePhotos, landscape);
+	}
+
+	openInMaps(place: google.maps.places.PlaceResult) {
+		this._googleApiService.openInMaps(place)
+	}
+
 	getPlacesFromNominatim(resp) {
 		this._nominatimApiService.getPlacesByLatLng(resp.coords.latitude, resp.coords.longitude)
 			.subscribe((result: SearchPlace[]) => {
-				console.log('nominatim', result);
-
 				let randNum = Math.round(Math.random() * result.length);
 				this.suggestionsNominatimList = result;
 				this.randomNominatimPlace = result[randNum];
