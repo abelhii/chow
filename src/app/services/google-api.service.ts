@@ -90,13 +90,19 @@ export class GoogleAPIService {
 
 	getPlacePhotoUrl(placePhotos: google.maps.places.PlacePhoto[], landscape: boolean): string {
 		let photos = placePhotos;
+
+		// prioritize getting landscape photos
 		if (placePhotos && placePhotos.length > 1) {
 			photos = _.filter(placePhotos, x => {
 				return landscape ? x.width > x.height : x.width < x.height;
 			});
 		}
 
-		return (photos && photos[0] != null) ? photos[0].getUrl({}) : "";
+		if (photos && photos[0] != null) {
+			return _.sample(photos).getUrl({});
+		} else {
+			return null;
+		}
 	}
 
 	getPlaces(): Observable<any> {
@@ -122,7 +128,7 @@ export class GoogleAPIService {
 		if (this.platform.is('ios')) {
 			this.iab.create("maps://?q=" + destination, "_system");
 		} else {
-			this.iab.create("https://www.google.com/maps/search/" + destination, "_system");
+			this.iab.create("https://www.google.com/maps/search/?api=1&query=" + destination + "&query_place_id=" + place.place_id, "_system");
 		}
 	}
 }

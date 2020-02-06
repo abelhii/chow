@@ -19,7 +19,7 @@ export class SuggestionsPage implements OnInit {
 
 	slideOptions = {
 		direction: 'horizontal',
-		speed: 300
+		speed: 100
 	};
 
 	constructor(
@@ -41,13 +41,13 @@ export class SuggestionsPage implements OnInit {
 		this._googleApiService.getPlacesByUserLatLng(resp.coords.latitude, resp.coords.longitude)
 			.subscribe((result: google.maps.places.PlaceResult[]) => {
 				console.log('google', result);
-
-				this.suggestionsList = _.sortBy(result, x => x.photos);
-
-				// get details of place by random number
-				let randNum = Math.round(Math.random() * result.length);
-				this.randomPlace = result[randNum];
+				this.suggestionsList = result;
+				this.getRandomPlace();
 			});
+	}
+
+	getRandomPlace() {
+		this.randomPlace = _.sample(this.suggestionsList);
 	}
 
 	getPlacesFromNominatim(resp) {
