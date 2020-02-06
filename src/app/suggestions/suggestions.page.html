@@ -10,11 +10,17 @@
 	<!--Google-->
 
 	<div *ngIf="suggestionsList.length > 0">
-		<ion-card *ngIf="randomPlace" target="_blank" (click)="_googleApiService.openInMaps(randomPlace)">
-			<img src="{{_googleApiService.getPlacePhotoUrl(randomPlace.photos, true)}}">
+		<ion-card class="suggestion-card" *ngIf="randomPlace" target="_blank" (click)="_googleApiService.openInMaps(randomPlace)">
+			<chow-image imgSource="{{_googleApiService.getPlacePhotoUrl(randomPlace.photos, true)}}"></chow-image>
+			<!-- <div style="position: relative;">
+				<img class="suggestion-image" [class.no-image]="_googleApiService.getPlacePhotoUrl(randomPlace.photos, true) == 'https://source.unsplash.com/random/?chow'" src="{{_googleApiService.getPlacePhotoUrl(randomPlace.photos, true)}}">
+				<span class="no-image-text" *ngIf="_googleApiService.getPlacePhotoUrl(randomPlace.photos, true) == 'https://source.unsplash.com/random/?chow'">
+					Couldn't find an image
+				</span>
+			</div> -->
 			<ion-card-header>
 				<ion-card-title>
-					<div style="display:grid; grid-template-columns:10fr 1fr">
+					<div>
 						{{randomPlace.name}}
 						<img src="{{randomPlace.icon}}" height="20px">
 					</div>
@@ -25,21 +31,33 @@
 			</ion-card-header>
 		</ion-card>
 
-		<ion-item lines="full">
+		<ion-item lines="none" class="ion-text-center ion-text-capitalize">
 			<ion-label>
-				Don't like your choice? Swipe for more below
+				Don't like your choice? Search again
 			</ion-label>
 		</ion-item>
 
-		<ion-slides pager="true" [options]="slideOptions">
-			<ion-slide *ngFor="let place of suggestionsList; let i = index">
-				<ion-card style="min-height:430px;" (click)="_googleApiService.openInMaps(place)">
-					<img src="{{_googleApiService.getPlacePhotoUrl(place.photos, true)}}" style="padding:15% 0;">
+		<ion-item lines="none">
+			<ion-button size="large" (click)="getRandomPlace()" style="margin: auto;">
+				<ion-icon slot="icon-only" name="search"></ion-icon>
+			</ion-button>
+		</ion-item>
+
+		<ion-item lines="full" class="ion-text-center ion-text-capitalize">
+			<ion-label>
+				Or swipe below for more
+			</ion-label>
+		</ion-item>
+
+		<ion-slides scrollbar="true" [options]="slideOptions">
+			<ion-slide *ngFor="let place of suggestionsList; let i=index">
+				<ion-card class="suggestion-card" (click)="_googleApiService.openInMaps(place)">
+					<chow-image imgSource="{{_googleApiService.getPlacePhotoUrl(place.photos, true)}}"></chow-image>
+					<!-- <img class="suggestion-image" src="{{_googleApiService.getPlacePhotoUrl(place.photos, true)}}"> -->
 					<ion-card-header>
 						<ion-card-title>
-							<div style="display:grid; grid-template-columns:10fr 1fr">
+							<div>
 								{{place.name}}
-								<img src="{{place.icon}}" height="20px">
 							</div>
 						</ion-card-title>
 						<ion-card-subtitle>

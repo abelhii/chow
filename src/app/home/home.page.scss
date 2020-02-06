@@ -2,7 +2,10 @@
     height: 100%;
     width: 100%;
     display: grid;
+    grid-template-rows: 4;
+    grid-template-columns: 3;
     grid-template-areas:
+        "top-top-left top-top-center top-top-right"
         "top-left top-center top-right"
         "left center right"
         "bot-left bot-center bot-right";

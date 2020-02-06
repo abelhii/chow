@@ -1,0 +1,9 @@
+<div style="position: relative">
+  <img 
+    src="{{imgSource}}"
+    [class.no-image]="imgNotFound"
+    [ngStyle]="{height: height}">
+  <span class="no-image-text" *ngIf="imgNotFound">
+    Couldn't find an image
+  </span>
+</div>

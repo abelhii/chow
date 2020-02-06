@@ -3,3 +3,34 @@ img {
     width: auto;
     margin: auto;
 }
+
+.suggestion-card{
+    min-height: 430px;
+    min-width: 95%;
+
+    .suggestion-image {
+        height: 300px;
+    }
+
+    .no-image {
+        filter: opacity(0.6);
+    }
+
+    .no-image-text {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        transform: translate(-50%, -50%);
+        color: black;
+        font-weight: bolder;
+        text-transform: uppercase;
+        font-size: 20px;
+        text-align: center;
+    }
+
+    ion-card-title div {
+        display:grid; 
+        grid-template-columns:10fr 1fr
+    }
+}
+
