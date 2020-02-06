@@ -44,11 +44,11 @@ export class GoogleAPIService {
 
 		return new Observable<google.maps.places.PlaceResult[]>((observer) => {
 			if (this.nearbyPlaces && this.nearbyPlaces.length > 0) {
-				console.log("from local");
+				// get from local
 				observer.next(this.nearbyPlaces);
 			}
 			else {
-				console.log("from api");
+				// get from api
 				this.placesService.nearbySearch(request, function (results, status) {
 					if (status == google.maps.places.PlacesServiceStatus.OK) {
 						dataSource.next(results);
