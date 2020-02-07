@@ -7,8 +7,6 @@
 </ion-header>
 
 <ion-content fullscreen>
-	<!--Google-->
-
 	<div *ngIf="suggestionsList.length > 0">
 		<ion-card class="suggestion-card" *ngIf="randomPlace" target="_blank" (click)="openInMaps(randomPlace)">
 			<chow-image imgSource="{{getPlacePhotoUrl(randomPlace.photos, true)}}"></chow-image>
@@ -61,44 +59,4 @@
 			</ion-slide>
 		</ion-slides>
 	</div>
-
-	<!--Nominatim-->
-
-	<!-- <div *ngIf="suggestionsNominatimList.length > 0">
-		<ion-card *ngIf="randomNominatimPlace">
-			<ion-card-header>
-				<ion-card-title>
-					<div style="display:grid; grid-template-columns:10fr 1fr">
-						{{randomNominatimPlace.address[randomNominatimPlace.type]}}
-						<img src="{{randomNominatimPlace.icon}}" height="20px">
-					</div>
-				</ion-card-title>
-				<ion-card-subtitle>
-					{{randomNominatimPlace.address.road}}, <br>
-					{{randomNominatimPlace.address.postcode}}, <br>
-					{{randomNominatimPlace.address.city}}, <br>
-					{{randomNominatimPlace.address.state}}, <br>
-					{{randomNominatimPlace.address.country}}
-				</ion-card-subtitle>
-			</ion-card-header>
-		</ion-card>
-
-		<ion-card *ngFor="let place of suggestionsList; let i = index" [routerLink]="['details', place.id]">
-			<ion-card-header>
-				<ion-card-title>
-					<div style="display:grid; grid-template-columns:10fr 1fr">
-						{{place.address[place.type]}}
-						<img src="{{place.icon}}" height="20px">
-					</div>
-				</ion-card-title>
-				<ion-card-subtitle>
-					{{place.address.road}}, <br>
-					{{place.address.postcode}}, <br>
-					{{place.address.city}}, <br>
-					{{place.address.state}}, <br>
-					{{place.address.country}}
-				</ion-card-subtitle>
-			</ion-card-header>
-		</ion-card>
-	</div> -->
 </ion-content>
