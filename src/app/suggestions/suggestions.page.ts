@@ -4,6 +4,7 @@ import { NominatimAPIService } from '../services/nominatim-api.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { SearchPlace } from '../models/nominatim';
 import { GoogleAPIService } from '../services/google-api.service';
+import { LoadingService } from '../services/loading.service';
 
 @Component({
 	selector: 'app-suggestions',
@@ -25,11 +26,13 @@ export class SuggestionsPage implements OnInit {
 	constructor(
 		private _googleApiService: GoogleAPIService,
 		private _nominatimApiService: NominatimAPIService,
-		private geolocation: Geolocation
+		private geolocation: Geolocation,
+		private loading: LoadingService
 	) { }
 
 	ngOnInit() {
 		this.geolocation.getCurrentPosition().then((resp) => {
+			this.loading.present();
 			this.getPlacesFromGoogle(resp);
 		}).catch((error) => {
 			console.log('Error getting location', error);
@@ -38,10 +41,11 @@ export class SuggestionsPage implements OnInit {
 
 	getPlacesFromGoogle(resp) {
 		this._googleApiService.getPlacesByUserLatLng(resp.coords.latitude, resp.coords.longitude)
-			.subscribe((result: google.maps.places.PlaceResult[]) => {
+		.subscribe((result: google.maps.places.PlaceResult[]) => {
 				this.suggestionsList = result;
 				this.getRandomPlace();
-			});
+				this.loading.dismiss();
+		});
 	}
 
 	getRandomPlace() {
@@ -53,7 +57,7 @@ export class SuggestionsPage implements OnInit {
 	}
 
 	openInMaps(place: google.maps.places.PlaceResult) {
-		this._googleApiService.openInMaps(place)
+		this._googleApiService.openInMaps(place);
 	}
 
 	getPlacesFromNominatim(resp) {

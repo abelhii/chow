@@ -18,6 +18,9 @@ export class GoogleAPIService {
 	placesService: google.maps.places.PlacesService;
 	nearbyPlaces: google.maps.places.PlaceResult[];
 
+	private dataSource = new BehaviorSubject<google.maps.places.PlaceResult[]>(null);
+	data = this.dataSource.asObservable();
+
 	constructor(
 		private http: HttpClient,
 		private platform: Platform,
@@ -39,8 +42,7 @@ export class GoogleAPIService {
 			console.log('initialize places');
 		}
 
-		let dataSource = new BehaviorSubject<google.maps.places.PlaceResult[]>(null);
-		let data = dataSource.asObservable();
+		let dataSourceLocal = this.dataSource;
 
 		return new Observable<google.maps.places.PlaceResult[]>((observer) => {
 			if (this.nearbyPlaces && this.nearbyPlaces.length > 0) {
@@ -51,14 +53,16 @@ export class GoogleAPIService {
 				// get from api
 				this.placesService.nearbySearch(request, function (results, status) {
 					if (status == google.maps.places.PlacesServiceStatus.OK) {
-						dataSource.next(results);
+						dataSourceLocal.next(results);
 						observer.next(results);
+					} else {
+						observer.error(results);
 					}
 				});
 
-				data.subscribe(data => {
+				this.data.subscribe(data => {
 					this.nearbyPlaces = data;
-				})
+				});
 			}
 		});
 	}
