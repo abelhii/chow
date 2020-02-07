@@ -11,6 +11,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
 import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
+import { LoadingService } from './services/loading.service';
 
 @NgModule({
 	declarations: [
@@ -28,6 +29,7 @@ import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 		SplashScreen,
 		Geolocation,
 		InAppBrowser,
+		LoadingService,
 		{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
 	],
 	bootstrap: [AppComponent]
