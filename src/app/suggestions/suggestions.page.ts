@@ -1,8 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import * as _ from 'lodash';
-import { NominatimAPIService } from '../services/nominatim-api.service';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { SearchPlace } from '../models/nominatim';
 import { GoogleAPIService } from '../services/google-api.service';
 import { LoadingService } from '../services/loading.service';
 
@@ -15,8 +13,6 @@ export class SuggestionsPage implements OnInit {
 
 	suggestionsList: google.maps.places.PlaceResult[] = [];
 	randomPlace: google.maps.places.PlaceResult;
-	suggestionsNominatimList: SearchPlace[] = [];
-	randomNominatimPlace: SearchPlace;
 
 	slideOptions = {
 		direction: 'horizontal',
@@ -25,7 +21,6 @@ export class SuggestionsPage implements OnInit {
 
 	constructor(
 		private _googleApiService: GoogleAPIService,
-		private _nominatimApiService: NominatimAPIService,
 		private geolocation: Geolocation,
 		private loading: LoadingService
 	) { }
@@ -41,11 +36,11 @@ export class SuggestionsPage implements OnInit {
 
 	getPlacesFromGoogle(resp) {
 		this._googleApiService.getPlacesByUserLatLng(resp.coords.latitude, resp.coords.longitude)
-		.subscribe((result: google.maps.places.PlaceResult[]) => {
+			.subscribe((result: google.maps.places.PlaceResult[]) => {
 				this.suggestionsList = result;
 				this.getRandomPlace();
 				this.loading.dismiss();
-		});
+			});
 	}
 
 	getRandomPlace() {
@@ -59,28 +54,4 @@ export class SuggestionsPage implements OnInit {
 	openInMaps(place: google.maps.places.PlaceResult) {
 		this._googleApiService.openInMaps(place);
 	}
-
-	getPlacesFromNominatim(resp) {
-		this._nominatimApiService.getPlacesByLatLng(resp.coords.latitude, resp.coords.longitude)
-			.subscribe((result: SearchPlace[]) => {
-				let randNum = Math.round(Math.random() * result.length);
-				this.suggestionsNominatimList = result;
-				this.randomNominatimPlace = result[randNum];
-			});
-	}
-
-	// getPlacePhotoURL(placesList: any[]) {
-	// 	_.forEach(placesList, (x, index) => {
-	// 		let photo_ref = x.photos[0].photo_reference;
-	// 		placesList[index].photoURL = this._googleApiService.getPhotoURLByReference(photo_ref);
-	// 		// .subscribe(result => {
-	// 		// 	console.log('photoURL: ', result);
-	// 		// 	placesList[index].photoURL = result;
-	// 		// 	console.log(placesList);
-	// 		// });
-	// 	});
-
-	// 	return placesList;
-	// }
-
 }

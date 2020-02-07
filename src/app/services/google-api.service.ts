@@ -4,7 +4,6 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import * as _ from 'lodash';
 import { Platform } from '@ionic/angular';
-import { InAppBrowser } from '@ionic-native/in-app-browser/ngx';
 
 @Injectable({
 	providedIn: 'root'
@@ -23,8 +22,7 @@ export class GoogleAPIService {
 
 	constructor(
 		private http: HttpClient,
-		private platform: Platform,
-		private iab: InAppBrowser
+		private platform: Platform
 	) { }
 
 	getPlacesByUserLatLng(lat: number, lng: number): Observable<any> {
@@ -128,11 +126,12 @@ export class GoogleAPIService {
 	}
 
 	openInMaps(place: google.maps.places.PlaceResult) {
-		let destination = place.geometry.location.lat() + "," + place.geometry.location.lng();
-		if (this.platform.is('ios')) {
-			this.iab.create("maps://?q=" + destination, "_system");
-		} else {
-			this.iab.create("https://www.google.com/maps/search/?api=1&query=" + destination + "&query_place_id=" + place.place_id, "_system");
+		let destination = place.geometry.location.lat + "," + place.geometry.location.lng;
+
+		if (this.platform.is('ios')) {	// ios
+			window.open("maps://?q=" + destination + "&query_place_id=" + place.place_id);
+		} else {	// android
+			window.open(environment.googleMapsUrl + destination + "&query_place_id=" + place.place_id);
 		}
 	}
 }
