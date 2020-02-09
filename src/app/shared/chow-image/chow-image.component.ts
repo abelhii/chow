@@ -1,4 +1,5 @@
 import { Component, Input, OnChanges } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
 	selector: 'chow-image',
@@ -17,17 +18,22 @@ export class ChowImageComponent implements OnChanges {
 	ngOnChanges() {
 		setTimeout(() => {
 			if(this.logo && !this.imgSource){
-				this.imgSource = "https://source.unsplash.com/collection/4927658/";
+				this.imgSource = environment.unsplashChowUrl;
 				return;
 			}
 
 			if (!this.imgSource || this.imgSource.length <= 0) {
 				this.imgNotFound = true;
-				this.imgSource = "https://source.unsplash.com/collection/4927658/";
+				this.imgSource = environment.unsplashChowUrl;
 			} else {
 				this.imgNotFound = false;
 			}
 		});
+	}
+
+	updateSrc() {
+		this.imgNotFound = true;
+		this.imgSource = environment.unsplashChowUrl;
 	}
 
 }

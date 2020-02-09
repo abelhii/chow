@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import * as _ from 'lodash';
 import { Platform } from '@ionic/angular';
+import { PlaceFilter, PlaceTypes } from '../models/filters';
 
 @Injectable({
 	providedIn: 'root'
@@ -20,26 +21,34 @@ export class GoogleAPIService {
 	private dataSource = new BehaviorSubject<google.maps.places.PlaceResult[]>(null);
 	data = this.dataSource.asObservable();
 
+	prevPlaceRequest: google.maps.places.PlaceSearchRequest;
+	filterChanged: boolean = false;
+
 	constructor(
 		private http: HttpClient,
 		private platform: Platform
-	) { }
+	) {	}
 
-	getPlacesByUserLatLng(lat: number, lng: number): Observable<any> {
+	getPlacesByUserLatLng(lat: number, lng: number, filter?: PlaceFilter): Observable<any> {
+		if (!filter) {
+			filter = {
+				Radius: 3000,
+				Types: PlaceTypes.Restaurant,
+				OpenNow: false
+			};
+		}
+
 		let userLocation = new google.maps.LatLng(lat, lng);
 
 		let request: google.maps.places.PlaceSearchRequest = {
 			location: userLocation,
-			radius: 1000, // can't use radius with rankBy distance
-			// rankBy: google.maps.places.RankBy.DISTANCE,
-			type: 'restaurant',
+			radius: filter.Radius,
+			keyword: filter.Types,
+			openNow: filter.OpenNow,
+			type: 'food'
 		};
 
-		if (this.placesService == null) {
-			this.placesService = new google.maps.places.PlacesService(document.createElement('div'));
-			console.log('initialize places');
-		}
-
+		// this.filterChanged = this.prevPlaceRequest == request;
 		let dataSourceLocal = this.dataSource;
 
 		return new Observable<google.maps.places.PlaceResult[]>((observer) => {
@@ -49,8 +58,15 @@ export class GoogleAPIService {
 			}
 			else {
 				// get from api
+				if (this.placesService == null) {
+					// Initialise places service
+					this.placesService = new google.maps.places.PlacesService(document.createElement('div'));
+				}
+				
+				// this.prevPlaceRequest = request;
 				this.placesService.nearbySearch(request, function (results, status) {
 					if (status == google.maps.places.PlacesServiceStatus.OK) {
+						console.log(results);
 						dataSourceLocal.next(results);
 						observer.next(results);
 					} else {
@@ -64,6 +80,37 @@ export class GoogleAPIService {
 			}
 		});
 	}
+
+	getPlacePhotoUrl(placePhotos: google.maps.places.PlacePhoto[], landscape: boolean): string {
+		let photos = placePhotos;
+
+		// prioritize getting landscape photos
+		if (placePhotos && placePhotos.length > 1) {
+			photos = _.filter(placePhotos, x => {
+				return landscape ? x.width > x.height : x.width < x.height;
+			});
+		}
+
+		if (photos && photos[0] != null) {
+			return _.sample(photos).getUrl();
+		} else {
+			return null;
+		}
+	}
+
+	openInMaps(place: google.maps.places.PlaceResult) {
+		let destination = place.geometry.location.lat() + "," + place.geometry.location.lng();
+
+		if (this.platform.is('ios')) {	// ios
+			window.open("maps://?q=" + destination + "&query_place_id=" + place.place_id);
+		} else {	// android
+			window.open(environment.googleMapsUrl + destination + "&query_place_id=" + place.place_id);
+		}
+	}
+
+
+
+	// May come in handy //
 
 	getPlaceDetailsByPlaceId(placeId: string): Observable<any> {
 		let request: google.maps.places.PlaceDetailsRequest = {
@@ -90,27 +137,6 @@ export class GoogleAPIService {
 		});
 	}
 
-	getPlacePhotoUrl(placePhotos: google.maps.places.PlacePhoto[], landscape: boolean): string {
-		let photos = placePhotos;
-
-		// prioritize getting landscape photos
-		if (placePhotos && placePhotos.length > 1) {
-			photos = _.filter(placePhotos, x => {
-				return landscape ? x.width > x.height : x.width < x.height;
-			});
-		}
-
-		if (photos && photos[0] != null) {
-			return _.sample(photos).getUrl({});
-		} else {
-			return null;
-		}
-	}
-
-	getPlaces(): Observable<any> {
-		return this.http.get("./assets/samplePlacesData.json");
-	}
-
 	getPhotoURLByReference(photo_ref: string) {
 		let headers = {
 			key: this.apiKey,
@@ -125,13 +151,7 @@ export class GoogleAPIService {
 		// return this.http.get(url);
 	}
 
-	openInMaps(place: google.maps.places.PlaceResult) {
-		let destination = place.geometry.location.lat + "," + place.geometry.location.lng;
-
-		if (this.platform.is('ios')) {	// ios
-			window.open("maps://?q=" + destination + "&query_place_id=" + place.place_id);
-		} else {	// android
-			window.open(environment.googleMapsUrl + destination + "&query_place_id=" + place.place_id);
-		}
+	getSamplePlaces(): Observable<any> {
+		return this.http.get("./assets/samplePlacesData.json");
 	}
 }
