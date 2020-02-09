@@ -2,7 +2,8 @@
   <img 
     src="{{imgSource}}"
     [class.no-image]="imgNotFound"
-    [ngStyle]="{height: height}">
+    [ngStyle]="{height: height}"
+    (error)="updateSrc()">
   <span class="no-image-text" *ngIf="imgNotFound">
     Couldn't find an image
   </span>

@@ -1,14 +1,7 @@
-<ion-header>
-	<ion-toolbar>
-		<ion-buttons slot="start">
-			<ion-back-button defaultHref="home"></ion-back-button>
-		</ion-buttons>
-	</ion-toolbar>
-</ion-header>
-
 <ion-content fullscreen>
 	<div *ngIf="suggestionsList.length > 0">
-		<ion-card class="suggestion-card" *ngIf="randomPlace" target="_blank" (click)="openInMaps(randomPlace)">
+
+		<!-- <ion-card class="suggestion-card ion-activatable" *ngIf="randomPlace" (click)="openInMaps(randomPlace)">
 			<chow-image imgSource="{{getPlacePhotoUrl(randomPlace.photos, true)}}"></chow-image>
 			<ion-card-header>
 				<ion-card-title>
@@ -21,29 +14,13 @@
 					{{randomPlace.vicinity}}
 				</ion-card-subtitle>
 			</ion-card-header>
-		</ion-card>
+			<ion-ripple-effect></ion-ripple-effect>
+		</ion-card> -->
 
-		<ion-item lines="none" class="ion-text-center ion-text-capitalize">
-			<ion-label>
-				Don't like your choice? Search again
-			</ion-label>
-		</ion-item>
+		<ion-slides #suggestionSlides pager="true" [options]="slideOptions">
+			<ion-slide *ngFor="let place of suggestionsList; let i=index" id="{{i}}option">
 
-		<ion-item lines="none">
-			<ion-button size="large" (click)="getRandomPlace()" style="margin: auto;">
-				<ion-icon slot="icon-only" name="search"></ion-icon>
-			</ion-button>
-		</ion-item>
-
-		<ion-item lines="full" class="ion-text-center ion-text-capitalize">
-			<ion-label>
-				Or swipe below for more
-			</ion-label>
-		</ion-item>
-
-		<ion-slides scrollbar="true" [options]="slideOptions">
-			<ion-slide *ngFor="let place of suggestionsList; let i=index">
-				<ion-card class="suggestion-card" (click)="openInMaps(place)">
+				<ion-card class="suggestion-card ion-activatable" (click)="openInMaps(place)">
 					<chow-image imgSource="{{getPlacePhotoUrl(place.photos, true)}}"></chow-image>
 					<ion-card-header>
 						<ion-card-title>
@@ -55,8 +32,33 @@
 							{{place.vicinity}}
 						</ion-card-subtitle>
 					</ion-card-header>
+					<ion-ripple-effect></ion-ripple-effect>
 				</ion-card>
+
 			</ion-slide>
 		</ion-slides>
 	</div>
+
+
+	<!-- ion-fab only works if it's a direct child of ion-content... -->
+	<ion-fab vertical="bottom" horizontal="center" slot="fixed" class="reroll-button">
+		<ion-fab-button (click)="getRandomPlace()" color="primary">
+			<i class="fas fa-paw" style="font-size:2em;"></i>
+		</ion-fab-button>
+	</ion-fab>
+
 </ion-content>
+
+<ion-footer>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-back-button defaultHref="home"></ion-back-button>
+		</ion-buttons>
+
+		<ion-buttons slot="end">
+			<ion-button>
+				<ion-icon slot="icon-only" name="heart"></ion-icon>
+			</ion-button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-footer>
