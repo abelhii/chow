@@ -1,11 +1,6 @@
-img {
-  max-height: 300px;
-  width: auto;
-  margin: auto;
-}
-
 .reroll-button {
   bottom: -5%;
+
   ion-fab-button {
     height: 74px;
     width: 74px;
@@ -13,31 +8,24 @@ img {
 }
 
 .suggestion-card {
-  min-height: 430px;
+  text-align: left;
+  min-height: 300px;
   min-width: 95%;
 
-  .suggestion-image {
-    height: 300px;
-  }
-
-  .no-image {
-    filter: opacity(0.6);
-  }
-
-  .no-image-text {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: black;
-    font-weight: bolder;
-    text-transform: uppercase;
-    font-size: 20px;
-    text-align: center;
-  }
-
-  ion-card-title div {
+  .card-title {
     display: grid;
-    grid-template-columns: 10fr 1fr;
+    grid-template-columns: auto auto;
+
+    img {
+      height: 20px;
+      width: auto;
+      margin-left: auto;
+    }
+  }
+
+  ion-card-subtitle {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 }

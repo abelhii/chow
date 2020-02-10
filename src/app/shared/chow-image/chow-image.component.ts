@@ -9,7 +9,6 @@ import { environment } from 'src/environments/environment';
 export class ChowImageComponent implements OnChanges {
 
 	@Input() imgSource: string;
-	@Input() height = "300px";
 	@Input() logo: boolean = false;
 	imgNotFound: boolean = false;
 
@@ -17,7 +16,7 @@ export class ChowImageComponent implements OnChanges {
 
 	ngOnChanges() {
 		setTimeout(() => {
-			if(this.logo && !this.imgSource){
+			if (this.logo && !this.imgSource) {
 				this.imgSource = environment.unsplashChowUrl;
 				return;
 			}
