@@ -1,0 +1,44 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-back-button defaultHref="suggestions" (click)="dismiss(true)"></ion-back-button>
+		</ion-buttons>
+
+		<ion-title>Filter</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-list>
+		<ion-list-header>
+			<ion-label>Types</ion-label>
+		</ion-list-header>
+		<ion-item lines="full">
+			<ion-radio-group #types class="place-types" (ionChange)="selectType($event)" allow-empty-selection>
+				<ion-item lines="none" class="place-type" *ngFor="let type of placeTypeOptions">
+					<ion-label>{{type}}</ion-label>
+					<ion-radio value="{{type}}" checked="{{filter.Type == PlaceType[type]}}"></ion-radio>
+				</ion-item>
+			</ion-radio-group>
+		</ion-item>
+
+		<ion-list-header>
+			<ion-label>Radius (in meters)</ion-label>
+		</ion-list-header>
+		<ion-item lines="full">
+			<ion-range min="500" max="2500" value="{{filter.Radius}}" (ionChange)="setRadius($event)" step="500" pin snaps ticks>
+				<i slot="start" class="fas fa-bullseye" style="font-size:medium"></i>
+				<i slot="end" class="fas fa-bullseye" style="font-size:x-large"></i>
+			</ion-range>
+		</ion-item>
+
+	</ion-list>
+	<ion-row>
+		<ion-col class="ion-align-self-center" style="text-align:center;">
+			<ion-button vertical="bottom" horizontal="center" color="primary" (click)="dismiss()">
+				<ion-icon name="search"></ion-icon>
+				Search
+			</ion-button>
+		</ion-col>
+	</ion-row>
+</ion-content>

@@ -1,10 +1,10 @@
 export interface PlaceFilter {
     Radius?: number;
-    Types?: PlaceTypes;
+    Type?: PlaceType;
     OpenNow?: boolean;
 }
 
-export enum PlaceTypes {
+export enum PlaceType {
     Bar = "bar",
     Bakery = "bakery",
     Cafe = "cafe",

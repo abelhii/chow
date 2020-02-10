@@ -1,16 +1,15 @@
-import { Injectable } from '@angular/core';
+import { Injectable, Input, ElementRef } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import * as _ from 'lodash';
 import { Platform } from '@ionic/angular';
-import { PlaceFilter, PlaceTypes } from '../models/filters';
+import { PlaceFilter, PlaceType } from '../models/filters';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class GoogleAPIService {
-
 	apiKey: string = environment.googleApiKey;
 	placePhotoURL: string = environment.placePhotoUrl;
 
@@ -27,32 +26,24 @@ export class GoogleAPIService {
 	constructor(
 		private http: HttpClient,
 		private platform: Platform
-	) {	}
+	) { }
 
-	getPlacesByUserLatLng(lat: number, lng: number, filter?: PlaceFilter): Observable<any> {
-		if (!filter) {
-			filter = {
-				Radius: 3000,
-				Types: PlaceTypes.Restaurant,
-				OpenNow: false
-			};
-		}
-
+	getPlacesByUserLatLng(lat: number, lng: number, filter: PlaceFilter): Observable<any> {
 		let userLocation = new google.maps.LatLng(lat, lng);
 
 		let request: google.maps.places.PlaceSearchRequest = {
 			location: userLocation,
-			radius: filter.Radius,
-			keyword: filter.Types,
+			radius: filter.Radius || 1000,
+			keyword: filter.Type || PlaceType.Restaurant,
 			openNow: filter.OpenNow,
 			type: 'food'
 		};
 
-		// this.filterChanged = this.prevPlaceRequest == request;
+		this.filterChanged = JSON.stringify(this.prevPlaceRequest) !== JSON.stringify(request);
 		let dataSourceLocal = this.dataSource;
 
 		return new Observable<google.maps.places.PlaceResult[]>((observer) => {
-			if (this.nearbyPlaces && this.nearbyPlaces.length > 0) {
+			if (this.nearbyPlaces && this.nearbyPlaces.length > 0 && !this.filterChanged) {
 				// get from local
 				observer.next(this.nearbyPlaces);
 			}
@@ -62,8 +53,8 @@ export class GoogleAPIService {
 					// Initialise places service
 					this.placesService = new google.maps.places.PlacesService(document.createElement('div'));
 				}
-				
-				// this.prevPlaceRequest = request;
+
+				this.prevPlaceRequest = request;
 				this.placesService.nearbySearch(request, function (results, status) {
 					if (status == google.maps.places.PlacesServiceStatus.OK) {
 						console.log(results);
@@ -92,7 +83,7 @@ export class GoogleAPIService {
 		}
 
 		if (photos && photos[0] != null) {
-			return _.sample(photos).getUrl();
+			return _.sample(photos).getUrl({ maxHeight: 500, maxWidth: 500 });
 		} else {
 			return null;
 		}

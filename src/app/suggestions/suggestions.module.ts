@@ -6,8 +6,8 @@ import { IonicModule } from '@ionic/angular';
 
 import { SuggestionsPage } from './suggestions.page';
 import { SuggestionsPageRoutingModule } from './suggestions-routing.module';
-import { SuggestionDetailsComponent } from './suggestion-details.component';
 import { SharedModule } from '../shared/shared.module';
+import { FilterModalPage } from './filter-modal/filter-modal/filter-modal.page';
 
 @NgModule({
   imports: [
@@ -19,7 +19,8 @@ import { SharedModule } from '../shared/shared.module';
   ],
   declarations: [
     SuggestionsPage,
-    SuggestionDetailsComponent
-  ]
+    FilterModalPage
+  ],
+  entryComponents: [FilterModalPage]
 })
-export class SuggestionsPageModule {}
+export class SuggestionsPageModule { }

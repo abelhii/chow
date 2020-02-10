@@ -39,7 +39,6 @@
 		</ion-slides>
 	</div>
 
-
 	<!-- ion-fab only works if it's a direct child of ion-content... -->
 	<ion-fab vertical="bottom" horizontal="center" slot="fixed" class="reroll-button">
 		<ion-fab-button (click)="getRandomPlace()" color="primary">
@@ -56,8 +55,8 @@
 		</ion-buttons>
 
 		<ion-buttons slot="end">
-			<ion-button>
-				<ion-icon slot="icon-only" name="heart"></ion-icon>
+			<ion-button (click)="presentModal()">
+				<i class="fas fa-filter"></i>
 			</ion-button>
 		</ion-buttons>
 	</ion-toolbar>
