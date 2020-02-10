@@ -17,15 +17,16 @@
 			<ion-ripple-effect></ion-ripple-effect>
 		</ion-card> -->
 
-		<ion-slides #suggestionSlides pager="true" [options]="slideOptions">
+		<ion-slides #suggestionSlides pager="false" [options]="slideOptions">
 			<ion-slide *ngFor="let place of suggestionsList; let i=index" id="{{i}}option">
 
 				<ion-card class="suggestion-card ion-activatable" (click)="openInMaps(place)">
 					<chow-image imgSource="{{getPlacePhotoUrl(place.photos, true)}}"></chow-image>
 					<ion-card-header>
 						<ion-card-title>
-							<div>
+							<div class="card-title">
 								{{place.name}}
+								<img src="{{place.icon}}">
 							</div>
 						</ion-card-title>
 						<ion-card-subtitle>
