@@ -24,7 +24,7 @@ export class FilterModalPage implements OnInit {
 	}
 
 	selectType(event: any) {
-		this.filter.Type = PlaceType[event.detail.value];
+		this.filter.Type = PlaceType[event.detail.value] as PlaceType;
 	}
 
 	setRadius(event: any) {
