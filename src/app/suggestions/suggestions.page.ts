@@ -15,7 +15,9 @@ export class SuggestionsPage implements OnInit {
 	@ViewChild('suggestionSlides', { static: false }) slider: IonSlides;
 
 	suggestionsList: google.maps.places.PlaceResult[] = [];
-	randomPlace: google.maps.places.PlaceResult;
+	selectedPlace: google.maps.places.PlaceResult;
+	isEven: boolean = false;
+	randomEmoji: string;
 
 	currentPosition: Geoposition;
 	filter: PlaceFilter = {
@@ -60,8 +62,10 @@ export class SuggestionsPage implements OnInit {
 	}
 
 	getRandomPlace() {
-		this.randomPlace = _.sample(this.suggestionsList);
-		this.slider.slideTo(this.suggestionsList.indexOf(this.randomPlace), 300);
+		this.selectedPlace = _.sample(this.suggestionsList);
+		this.slider.slideTo(this.suggestionsList.indexOf(this.selectedPlace), 300);
+		
+		this.getRandomEmoji();
 	}
 
 	getPlacePhotoUrl(placePhotos: google.maps.places.PlacePhoto[], landscape: boolean) {
@@ -70,6 +74,24 @@ export class SuggestionsPage implements OnInit {
 
 	openInMaps(place: google.maps.places.PlaceResult) {
 		this._googleApiService.openInMaps(place);
+	}
+
+	changeSelectedPlace() {
+		this.slider.getActiveIndex()
+			.then(index => {
+				this.isEven = index % 2 == 0;
+				this.selectedPlace = this.suggestionsList[index];
+
+				this.getRandomEmoji();
+			});
+	}
+
+	getRandomEmoji() {
+		let min = 127812;
+		let max = 127871;
+		let rand = Math.floor(Math.random() * (max - min)) + min;
+
+		this.randomEmoji = '&#' + rand + ';';
 	}
 
 	// Filter
