@@ -8,6 +8,7 @@ import { SuggestionsPage } from './suggestions.page';
 import { SuggestionsPageRoutingModule } from './suggestions-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { FilterModalPage } from './filter-modal/filter-modal/filter-modal.page';
+import { PlaceDetailModalPage } from './place-detail-modal/place-detail-modal.page';
 
 @NgModule({
   imports: [
@@ -19,8 +20,12 @@ import { FilterModalPage } from './filter-modal/filter-modal/filter-modal.page';
   ],
   declarations: [
     SuggestionsPage,
-    FilterModalPage
+    FilterModalPage,
+    PlaceDetailModalPage,
   ],
-  entryComponents: [FilterModalPage]
+  entryComponents: [
+    FilterModalPage,
+    PlaceDetailModalPage
+  ]
 })
 export class SuggestionsPageModule { }

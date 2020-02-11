@@ -11,7 +11,7 @@
 		<ion-slides #suggestionSlides pager="false" [options]="slideOptions" (ionSlideDidChange)="changeSelectedPlace()">
 			<ion-slide *ngFor="let place of suggestionsList; let i=index" id="{{i}}option">
 
-				<ion-card class="suggestion-card ion-activatable" (click)="openInMaps(place)">
+				<ion-card class="suggestion-card ion-activatable" (click)="presentPlaceModal(place)">
 					<chow-image [imgSource]="getPlacePhotoUrl(place.photos, true)"></chow-image>
 					<ion-card-header>
 						<ion-card-title>
@@ -47,7 +47,7 @@
 		</ion-buttons>
 
 		<ion-buttons slot="end">
-			<ion-button (click)="presentModal()">
+			<ion-button (click)="presentFilterModal()">
 				<i class="fas fa-filter"></i>
 			</ion-button>
 		</ion-buttons>

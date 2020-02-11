@@ -1,0 +1,25 @@
+<ion-content>
+	<chow-image [imgSource]="getPlacePhotoUrl(place.photos, true)" height="100%"></chow-image>
+	<ion-item lines="none">
+		<h1>{{place.name}}</h1>
+	</ion-item>
+	<ion-item lines="none" detail="true" class="ion-activatable" (click)="openInMaps()">
+		<i slot="start" class="fas fa-map-marker-alt"></i>
+		<ion-label>{{place.vicinity}}</ion-label>
+		<ion-ripple-effect></ion-ripple-effect>
+	</ion-item>
+
+	<ion-list>
+		<ion-item lines="none">
+			{{place.rating}}
+		</ion-item>
+	</ion-list>
+</ion-content>
+
+<ion-footer>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-back-button defaultHref="suggestions" (click)="dismiss(true)"></ion-back-button>
+		</ion-buttons>
+	</ion-toolbar>
+</ion-footer>

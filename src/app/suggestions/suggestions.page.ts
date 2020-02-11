@@ -5,6 +5,7 @@ import { GoogleAPIService } from '../services/google-api.service';
 import { PlaceFilter, PlaceType } from '../models/filters';
 import { IonSlides, ModalController } from '@ionic/angular';
 import { FilterModalPage } from './filter-modal/filter-modal/filter-modal.page';
+import { PlaceDetailModalPage } from './place-detail-modal/place-detail-modal.page';
 
 @Component({
 	selector: 'app-suggestions',
@@ -94,8 +95,24 @@ export class SuggestionsPage implements OnInit {
 		this.randomEmoji = '&#' + rand + ';';
 	}
 
+	// Place detail modal
+	async presentPlaceModal(place: google.maps.places.PlaceResult) {
+		const modal = await this.modalController.create({
+			component: PlaceDetailModalPage,
+			componentProps: { place: place }
+		});
+
+		modal.onDidDismiss().then((result) => {
+			if(result.data) {
+				console.log(result);
+			}
+		});
+
+		await modal.present();
+	}
+
 	// Filter
-	async presentModal() {
+	async presentFilterModal() {
 		const modal = await this.modalController.create({
 			component: FilterModalPage,
 			componentProps: { filter: this.filter }
