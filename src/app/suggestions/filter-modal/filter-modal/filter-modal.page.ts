@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { ModalController } from '@ionic/angular';
+import { ModalController, Platform } from '@ionic/angular';
 import { PlaceType, PlaceFilter } from 'src/app/models/filters';
 
 @Component({
@@ -17,7 +17,12 @@ export class FilterModalPage implements OnInit {
 
 	constructor(
 		public modalController: ModalController,
-	) { }
+		private platform: Platform
+	) {
+		this.platform.backButton.subscribeWithPriority(0, () => {
+			this.dismiss(false);
+		})
+	}
 
 	ngOnInit() {
 		this.placeTypeOptions = Object.keys(PlaceType);
