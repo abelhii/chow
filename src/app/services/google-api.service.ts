@@ -91,12 +91,7 @@ export class GoogleAPIService {
 
 	openInMaps(place: google.maps.places.PlaceResult) {
 		let destination = place.geometry.location.lat() + "," + place.geometry.location.lng();
-
-		if (this.platform.is('ios')) {	// ios
-			window.open("maps://?q=" + destination + "&query_place_id=" + place.place_id);
-		} else {	// android
-			window.open(environment.googleMapsUrl + destination + "&query_place_id=" + place.place_id);
-		}
+		window.open(environment.googleMapsUrl + destination + "&query_place_id=" + place.place_id);
 	}
 
 

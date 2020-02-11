@@ -31,8 +31,10 @@ export class ChowImageComponent implements OnChanges {
 	}
 
 	updateSrc() {
-		this.imgNotFound = true;
-		this.imgSource = environment.unsplashChowUrl;
+		setTimeout(() => {
+			this.imgNotFound = true;
+			this.imgSource = environment.unsplashChowUrl;
+		});
 	}
 
 }

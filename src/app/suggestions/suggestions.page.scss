@@ -9,13 +9,15 @@
 
 .suggestion-card {
   text-align: left;
-  min-height: 300px;
+  min-height: 275px;
   min-width: 95%;
 
   .card-title {
     display: grid;
     grid-template-columns: auto auto;
-
+    font-weight: 400;
+    font-size: 20px;
+    
     img {
       height: 20px;
       width: auto;

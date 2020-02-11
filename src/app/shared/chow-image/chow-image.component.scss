@@ -1,12 +1,19 @@
 img {
-    height: 175px;
+    height: 150px;
+    width: 100%;
     object-fit: cover;
     object-position: center;
+}
+
+.logo {
+    width: auto;
+    height: 300px;
 }
 
 .no-image {
     filter: opacity(0.6);
     object-fit: contain;
+    margin: auto;
 }
 
 .no-image-text {

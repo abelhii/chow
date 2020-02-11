@@ -1,27 +1,18 @@
 <ion-content fullscreen>
+
+	<map #map_canvas *ngIf="selectedPlace" [place]="selectedPlace"></map>
+
 	<div *ngIf="suggestionsList.length > 0">
+		<ion-toolbar style="margin-bottom: -10px;">
+			<ion-title *ngIf="isEven" innerHtml="{{randomEmoji}} Have you tried"></ion-title>
+			<ion-title *ngIf="!isEven" innerHtml="{{randomEmoji}} You should have"></ion-title>
+		</ion-toolbar>
 
-		<!-- <ion-card class="suggestion-card ion-activatable" *ngIf="randomPlace" (click)="openInMaps(randomPlace)">
-			<chow-image imgSource="{{getPlacePhotoUrl(randomPlace.photos, true)}}"></chow-image>
-			<ion-card-header>
-				<ion-card-title>
-					<div>
-						{{randomPlace.name}}
-						<img src="{{randomPlace.icon}}" height="20px">
-					</div>
-				</ion-card-title>
-				<ion-card-subtitle>
-					{{randomPlace.vicinity}}
-				</ion-card-subtitle>
-			</ion-card-header>
-			<ion-ripple-effect></ion-ripple-effect>
-		</ion-card> -->
-
-		<ion-slides #suggestionSlides pager="false" [options]="slideOptions">
+		<ion-slides #suggestionSlides pager="false" [options]="slideOptions" (ionSlideDidChange)="changeSelectedPlace()">
 			<ion-slide *ngFor="let place of suggestionsList; let i=index" id="{{i}}option">
 
 				<ion-card class="suggestion-card ion-activatable" (click)="openInMaps(place)">
-					<chow-image imgSource="{{getPlacePhotoUrl(place.photos, true)}}"></chow-image>
+					<chow-image [imgSource]="getPlacePhotoUrl(place.photos, true)"></chow-image>
 					<ion-card-header>
 						<ion-card-title>
 							<div class="card-title">
