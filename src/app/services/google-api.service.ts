@@ -49,11 +49,7 @@ export class GoogleAPIService {
 			}
 			else {
 				// get from api
-				if (this.placesService == null) {
-					// Initialise places service
-					this.placesService = new google.maps.places.PlacesService(document.createElement('div'));
-				}
-
+				this.initialisePlaceService();
 				this.prevPlaceRequest = request;
 				this.placesService.nearbySearch(request, function (results, status) {
 					if (status == google.maps.places.PlacesServiceStatus.OK) {
@@ -72,12 +68,12 @@ export class GoogleAPIService {
 		});
 	}
 
-	getPlacePhotoUrl(placePhotos: google.maps.places.PlacePhoto[], landscape: boolean): string {
-		let photos = placePhotos;
+	getPlacePhotoUrl(place: google.maps.places.PlaceResult, landscape: boolean): string {
+		let photos = place.photos;
 
 		// prioritize getting landscape photos
-		if (placePhotos && placePhotos.length > 1) {
-			photos = _.filter(placePhotos, x => {
+		if (photos && photos.length > 1) {
+			photos = _.filter(photos, x => {
 				return landscape ? x.width > x.height : x.width < x.height;
 			});
 		}
@@ -87,7 +83,7 @@ export class GoogleAPIService {
 			if (typeof chosenPhoto.getUrl === "function") {
 				return chosenPhoto.getUrl({ maxHeight: 500, maxWidth: 500 });
 			} else {
-				return chosenPhoto.html_attributions[0];
+				return place.photoUrl;
 			}
 		} else {
 			return null;
@@ -95,8 +91,21 @@ export class GoogleAPIService {
 	}
 
 	openInMaps(place: google.maps.places.PlaceResult) {
-		let destination = place.geometry.location.lat() + "," + place.geometry.location.lng();
+		let location = place.geometry.location;
+		let destination = "";
+		if (typeof location.lat === "function") {
+			destination = place.geometry.location.lat() + "," + place.geometry.location.lng();
+		} else {
+			destination = place.geometry.location.lat + "," + place.geometry.location.lng;
+		}
 		window.open(environment.googleMapsUrl + destination + "&query_place_id=" + place.place_id);
+	}
+
+	initialisePlaceService() {
+		if (this.placesService == null) {
+			// Initialise places service
+			this.placesService = new google.maps.places.PlacesService(document.createElement('div'));
+		}
 	}
 
 	// May come in handy //
@@ -116,7 +125,8 @@ export class GoogleAPIService {
 				'type',
 				'url']
 		}
-
+		
+		this.initialisePlaceService();
 		return new Observable<google.maps.places.PlaceResult>((observer) => {
 			this.placesService.getDetails(request, function (place, status) {
 				if (status == google.maps.places.PlacesServiceStatus.OK) {

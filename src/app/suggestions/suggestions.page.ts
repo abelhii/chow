@@ -70,8 +70,8 @@ export class SuggestionsPage implements OnInit {
 		this.getRandomEmoji();
 	}
 
-	getPlacePhotoUrl(placePhotos: google.maps.places.PlacePhoto[], landscape: boolean) {
-		return this._googleApiService.getPlacePhotoUrl(placePhotos, landscape);
+	getPlacePhotoUrl(place: google.maps.places.PlaceResult, landscape: boolean) {
+		return this._googleApiService.getPlacePhotoUrl(place, landscape);
 	}
 
 	openInMaps(place: google.maps.places.PlaceResult) {

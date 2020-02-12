@@ -1,4 +1,8 @@
-ion-label{
+ion-label {
+  h1,
+  h2,
+  h3 {
     overflow: auto;
     text-overflow: ellipsis;
+  }
 }

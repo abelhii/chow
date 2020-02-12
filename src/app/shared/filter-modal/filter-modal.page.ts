@@ -1,5 +1,5 @@
-import { Component, OnInit, Input } from '@angular/core';
-import { ModalController, Platform } from '@ionic/angular';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { PlaceType, PlaceFilter } from 'src/app/models/filters';
 
 @Component({
@@ -8,7 +8,6 @@ import { PlaceType, PlaceFilter } from 'src/app/models/filters';
 	styleUrls: ['./filter-modal.page.scss'],
 })
 export class FilterModalPage implements OnInit {
-
 	@Input() filter: PlaceFilter;
 
 	// Enums
@@ -16,12 +15,13 @@ export class FilterModalPage implements OnInit {
 	placeTypeOptions: string[];
 
 	constructor(
-		public modalController: ModalController,
-		private platform: Platform
+		public modalController: ModalController
 	) {
-		this.platform.backButton.subscribeWithPriority(0, () => {
-			this.dismiss(false);
-		})
+		// push modal state to history to prevent back button redirect
+		if (!window.history.state.modal) {
+			const modalState = { modal: true };
+			history.pushState(modalState, null);
+		}
 	}
 
 	ngOnInit() {
@@ -36,6 +36,7 @@ export class FilterModalPage implements OnInit {
 		this.filter.Radius = event.detail.value;
 	}
 
+	@HostListener('window:popstate', ['$event'])
 	dismiss(cancel: boolean) {
 		if (cancel) {
 			this.modalController.dismiss();

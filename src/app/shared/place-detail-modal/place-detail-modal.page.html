@@ -11,6 +11,7 @@
 	<ion-item lines="none">
 		<ion-label>
 			<h1>{{place.name}}</h1>
+			<div class="Stars" [attr.style]="sanitizer.bypassSecurityTrustStyle('--rating: ' + place.rating)"></div>
 		</ion-label>
 		<div slot="end" (click)="savePlace()" class="favourite ion-activatable">
 			<div *ngIf="favourite">
@@ -29,11 +30,8 @@
 	</ion-item>
 
 	<ion-list>
-		<ion-item lines="none">
-			<ion-label>{{place.rating}}</ion-label>
-		</ion-item>
-		<ion-item lines="none" *ngIf="place.price_level">
+		<!-- <ion-item lines="none" *ngIf="place.price_level">
 			<ion-label>{{place.price_level}}</ion-label>
-		</ion-item>
+		</ion-item> -->
 	</ion-list>
 </ion-content>

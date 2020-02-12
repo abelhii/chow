@@ -12,7 +12,7 @@
 			<ion-slide *ngFor="let place of suggestionsList; let i=index" id="{{i}}option">
 
 				<ion-card class="suggestion-card ion-activatable" (click)="presentPlaceModal(place)">
-					<chow-image [imgSource]="getPlacePhotoUrl(place.photos, true)"></chow-image>
+					<chow-image [imgSource]="getPlacePhotoUrl(place, true)"></chow-image>
 					<ion-card-header>
 						<ion-card-title>
 							<div class="card-title">

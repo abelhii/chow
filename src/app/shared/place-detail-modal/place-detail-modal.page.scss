@@ -1,24 +1,47 @@
 ion-toolbar {
-    --background: transparent;
-    --ion-color-base: transparent !important;
-    position: absolute;
+  --background: transparent;
+  --ion-color-base: transparent !important;
+  position: absolute;
 
-    ion-button{
-        background-color: #fff;
-        border-radius: 50%;
-    }
+  ion-button {
+    background-color: #fff;
+    border-radius: 50%;
+  }
 }
 
 ion-item {
+  h1,
+  ion-label {
+    white-space: normal;
+  }
 
-    h1,
-    ion-label {
-        white-space: normal;
-    }
+  .favourite {
+    position: relative;
+    font-size: larger;
+    color: #ff0000;
+  }
+}
 
-    .favourite {
-        position: relative;
-        font-size: larger;
-        color: #ff0000;
-    }
+.Stars {
+  --star-size: 30px;
+  --star-color: #eee;
+  --star-background: #fc0;
+  --percent: calc(var(--rating) / 5 * 100%);
+
+  display: inline-block;
+  font-size: var(--star-size);
+  font-family: Times; // make sure ★ appears correctly
+  line-height: 1;
+
+  &::before {
+    content: "★★★★★";
+    letter-spacing: 3px;
+    background: linear-gradient(
+      90deg,
+      var(--star-background) var(--percent),
+      var(--star-color) var(--percent)
+    );
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
 }

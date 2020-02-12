@@ -30,10 +30,6 @@ export class FavouritesPage implements OnInit {
 		});
 	}
 
-	// photos.getUrl() isn't working because (assumption) google loses its link to the object after it is stored in SQLite.
-	getPlacePhotoUrl(placePhotos: google.maps.places.PlacePhoto[], landscape: boolean) {
-		return this._googleApiService.getPlacePhotoUrl(placePhotos, landscape);
-	}
 
 	presentPlaceModal(place: google.maps.places.PlaceResult) {
 		this.modalService.presentPlaceModal(place).then((observable) => {
