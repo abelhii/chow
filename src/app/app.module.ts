@@ -10,7 +10,7 @@ import { AppComponent } from './app.component';
 import { AppRoutingModule } from './app-routing.module';
 import { HttpClientModule } from '@angular/common/http';
 import { Geolocation } from '@ionic-native/geolocation/ngx';
-import { LoadingService } from './services/loading.service';
+import { IonicStorageModule } from '@ionic/storage';
 
 @NgModule({
 	declarations: [
@@ -20,6 +20,7 @@ import { LoadingService } from './services/loading.service';
 	imports: [
 		BrowserModule,
 		IonicModule.forRoot(),
+		IonicStorageModule.forRoot({ name: '__chowDb' }),
 		AppRoutingModule,
 		HttpClientModule
 	],
@@ -27,7 +28,6 @@ import { LoadingService } from './services/loading.service';
 		StatusBar,
 		SplashScreen,
 		Geolocation,
-		LoadingService,
 		{ provide: RouteReuseStrategy, useClass: IonicRouteStrategy }
 	],
 	bootstrap: [AppComponent]

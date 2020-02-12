@@ -1,0 +1,24 @@
+ion-toolbar {
+    --background: transparent;
+    --ion-color-base: transparent !important;
+    position: absolute;
+
+    ion-button{
+        background-color: #fff;
+        border-radius: 50%;
+    }
+}
+
+ion-item {
+
+    h1,
+    ion-label {
+        white-space: normal;
+    }
+
+    .favourite {
+        position: relative;
+        font-size: larger;
+        color: #ff0000;
+    }
+}

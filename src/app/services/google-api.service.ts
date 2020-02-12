@@ -83,7 +83,12 @@ export class GoogleAPIService {
 		}
 
 		if (photos && photos[0] != null) {
-			return _.sample(photos).getUrl({ maxHeight: 500, maxWidth: 500 });
+			let chosenPhoto = _.sample(photos);
+			if (typeof chosenPhoto.getUrl === "function") {
+				return chosenPhoto.getUrl({ maxHeight: 500, maxWidth: 500 });
+			} else {
+				return chosenPhoto.html_attributions[0];
+			}
 		} else {
 			return null;
 		}
@@ -93,8 +98,6 @@ export class GoogleAPIService {
 		let destination = place.geometry.location.lat() + "," + place.geometry.location.lng();
 		window.open(environment.googleMapsUrl + destination + "&query_place_id=" + place.place_id);
 	}
-
-
 
 	// May come in handy //
 

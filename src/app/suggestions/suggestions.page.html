@@ -44,6 +44,9 @@
 	<ion-toolbar>
 		<ion-buttons slot="start">
 			<ion-back-button defaultHref="home"></ion-back-button>
+			<ion-button [routerLink]="['../favourites']">
+				<ion-icon name="heart"></ion-icon>
+			</ion-button>
 		</ion-buttons>
 
 		<ion-buttons slot="end">

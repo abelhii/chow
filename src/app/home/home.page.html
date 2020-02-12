@@ -2,14 +2,19 @@
 	<div class="grid-container ion-padding">
 		<div class="logo grid-item">
 			<chow-image [imgSource]="" logo="true" height="100%"></chow-image>
-			<ion-title size="large">Chow</ion-title>
+		</div>
+		<div class="title grid-item">
+			<ion-title>
+				<h3>ready to</h3>
+				<h1>Chow?</h1>
+			</ion-title>
+
+			<h6>Click the paw below</h6>
 		</div>
 		<div class="randomize-button grid-item">
-			<ion-button size="large" [routerLink]="['../suggestions']">
-				<ion-icon slot="icon-only" name="search"></ion-icon>
-			</ion-button>
-		</div>
-		<div class="filter-button grid-item">
+			<ion-fab-button [routerLink]="['../suggestions']">
+				<i class="fas fa-paw" style="font-size:2em;"></i>
+			</ion-fab-button>
 		</div>
 	</div>
 </ion-content>

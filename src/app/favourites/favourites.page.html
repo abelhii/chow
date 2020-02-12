@@ -1,0 +1,26 @@
+<ion-header>
+	<ion-toolbar>
+		<ion-buttons slot="start">
+			<ion-back-button defaultHref="suggestions"></ion-back-button>
+		</ion-buttons>
+
+		<ion-title>Favourites</ion-title>
+	</ion-toolbar>
+</ion-header>
+
+<ion-content>
+	<ion-title *ngIf="!places">
+		<h1>No favourites yet!</h1>
+	</ion-title>
+	<ion-list *ngIf="places && places.length > 0">
+		<ion-item *ngFor="let place of places" (click)="presentPlaceModal(place)">
+			<ion-avatar slot="start">
+				<img src="{{place.icon}}">
+			</ion-avatar>
+			<ion-label>
+				<h2>{{place.name}}</h2>
+				<h3>{{place.vicinity}}</h3>
+			</ion-label>
+		</ion-item>
+	</ion-list>
+</ion-content>
