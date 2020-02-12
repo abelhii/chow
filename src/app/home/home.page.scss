@@ -5,10 +5,11 @@
     grid-template-rows: 4;
     grid-template-columns: 3;
     grid-template-areas:
-        "top-top-left top-top-center top-top-right"
+        "2-top-left 2-top-center 2-top-right"
         "top-left top-center top-right"
         "left center right"
-        "bot-left bot-center bot-right";
+        "bot-left bot-center bot-right"
+        "2-bot-left 2-bot-center 2-bot-right";
 
     .grid-item {
         display: flex;
@@ -20,17 +21,28 @@
 
 .logo {
     grid-area: top-center;
-
     ion-img {
         margin: auto;
         width: 100px;
     }
 }
 
-.randomize-button {
+.title {
     grid-area: center;
+    text-align: center;
+
+    h1,
+    h3,
+    h6 {
+        margin: 0px 0px;
+    }
 }
 
-.filter-button {
+.randomize-button {
     grid-area: bot-center;
+
+    ion-fab-button {
+        height: 74px;
+        width: 74px;
+    }
 }

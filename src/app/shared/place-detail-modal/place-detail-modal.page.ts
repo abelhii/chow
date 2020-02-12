@@ -1,6 +1,8 @@
 import { Component, OnInit, Input, NgZone } from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
 import { GoogleAPIService } from 'src/app/services/google-api.service';
+import { PlaceStorageService } from 'src/app/services/place-storage.service';
+import { LoadingToastService } from 'src/app/services/loading-toast.service';
 
 @Component({
 	selector: 'app-place-detail-modal',
@@ -11,12 +13,15 @@ export class PlaceDetailModalPage implements OnInit {
 	@Input() place: google.maps.places.PlaceResult;
 
 	placeDetails: google.maps.places.PlaceResult;
+	favourite: boolean = false;
 
 	constructor(
 		public modalController: ModalController,
 		private platform: Platform,
 		private zone: NgZone,
-		private _googleApiService: GoogleAPIService
+		private placeStorage: PlaceStorageService,
+		private loadingToast: LoadingToastService,
+		private _googleApiService: GoogleAPIService,
 	) {
 		this.platform.backButton.subscribeWithPriority(0, () => {
 			this.dismiss();
@@ -24,6 +29,7 @@ export class PlaceDetailModalPage implements OnInit {
 	}
 
 	ngOnInit() {
+		this.checkIfFavourited();
 		this._googleApiService.getPlaceDetailsByPlaceId(this.place.id)
 			.subscribe((result: google.maps.places.PlaceResult) => {
 				this.zone.run(() => {
@@ -41,7 +47,28 @@ export class PlaceDetailModalPage implements OnInit {
 		this._googleApiService.openInMaps(this.place);
 	}
 
+	savePlace() {
+		this.placeStorage.setPlace(this.place)
+			.subscribe((result) => {
+				this.favourite = result;
+				if(result){
+					this.loadingToast.presentToast("Saved to favourites!");
+				}else {
+					this.loadingToast.presentToast("Removed from your list");
+				}
+			});
+	}
+
 	dismiss() {
 		this.modalController.dismiss();
+	}
+
+	checkIfFavourited() {
+		console.log(this.favourite);
+		this.placeStorage.getPlaceById(this.place.id).subscribe((result: number) => {
+			if (result >= 0) {
+				this.favourite = true;
+			}
+		})
 	}
 }

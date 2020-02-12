@@ -3,9 +3,9 @@ import * as _ from 'lodash';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import { GoogleAPIService } from '../services/google-api.service';
 import { PlaceFilter, PlaceType } from '../models/filters';
-import { IonSlides, ModalController } from '@ionic/angular';
-import { FilterModalPage } from './filter-modal/filter-modal/filter-modal.page';
-import { PlaceDetailModalPage } from './place-detail-modal/place-detail-modal.page';
+import { IonSlides } from '@ionic/angular';
+import { ModalService } from '../services/modal.service';
+import { LoadingToastService } from '../services/loading-toast.service';
 
 @Component({
 	selector: 'app-suggestions',
@@ -37,7 +37,8 @@ export class SuggestionsPage implements OnInit {
 		private _googleApiService: GoogleAPIService,
 		private geolocation: Geolocation,
 		private zone: NgZone,
-		public modalController: ModalController
+		private loadingToast: LoadingToastService,
+		public modalService: ModalService
 	) { }
 
 	ngOnInit() {
@@ -88,43 +89,21 @@ export class SuggestionsPage implements OnInit {
 	}
 
 	getRandomEmoji() {
-		let min = 127812;
-		let max = 127871;
-		let rand = Math.floor(Math.random() * (max - min)) + min;
-
-		this.randomEmoji = '&#' + rand + ';';
+		this.randomEmoji = this.loadingToast.getRandomFoodEmoji();
 	}
 
 	// Place detail modal
-	async presentPlaceModal(place: google.maps.places.PlaceResult) {
-		const modal = await this.modalController.create({
-			component: PlaceDetailModalPage,
-			componentProps: { place: place }
-		});
-
-		modal.onDidDismiss().then((result) => {
-			if(result.data) {
-				console.log(result);
-			}
-		});
-
-		await modal.present();
+	presentPlaceModal(place: google.maps.places.PlaceResult) {
+		this.modalService.presentPlaceModal(place);
 	}
 
 	// Filter
-	async presentFilterModal() {
-		const modal = await this.modalController.create({
-			component: FilterModalPage,
-			componentProps: { filter: this.filter }
-		});
-
-		modal.onDidDismiss().then((result) => {
-			if (result.data) {
-				this.filter = result.data;
+	presentFilterModal() {
+		this.modalService.presentFilterModal(this.filter).then((observable) => {
+			observable.subscribe((filterResults) => {
+				this.filter = filterResults;
 				this.getPlacesFromGoogle();
-			}
-		});
-
-		await modal.present();
+			})
+		})
 	}
 }
