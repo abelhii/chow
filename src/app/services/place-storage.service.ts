@@ -8,7 +8,7 @@ import { Subscriber } from 'rxjs';
 })
 export class PlaceStorageService {
 
-	constructor(private storage: Storage) { }
+	constructor(private storage: Storage,) { }
 
 	getPlaces(): Promise<any> {
 		return this.storage.get("places");
@@ -33,13 +33,14 @@ export class PlaceStorageService {
 		})
 	}
 
-	setPlace(place: google.maps.places.PlaceResult) {
+	setPlace(place: google.maps.places.PlaceResult, photoUrl: string) {
 		let placesList: google.maps.places.PlaceResult[];
 		let isSaved: boolean = false;
 
 		return new Observable<boolean>((observer) => {
 			this.getPlaces().then((result) => {
 				placesList = JSON.parse(result) || [];
+				place.photoUrl = photoUrl;
 
 				if (!placesList.find(x => x.id == place.id)) {
 					placesList = placesList.concat(place);

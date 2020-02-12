@@ -13,9 +13,9 @@
 		<h1>No favourites yet!</h1>
 	</ion-title>
 	<ion-list *ngIf="places && places.length > 0">
-		<ion-item *ngFor="let place of places" (click)="presentPlaceModal(place)">
+		<ion-item *ngFor="let place of places" detail="true" (click)="presentPlaceModal(place)">
 			<ion-avatar slot="start">
-				<img src="{{place.icon}}">
+				<ion-img src="{{place.photoUrl}}"></ion-img>
 			</ion-avatar>
 			<ion-label>
 				<h2>{{place.name}}</h2>

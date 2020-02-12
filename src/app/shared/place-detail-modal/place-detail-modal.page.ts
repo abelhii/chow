@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, NgZone } from '@angular/core';
+import { Component, OnInit, Input, NgZone, HostListener, Sanitizer } from '@angular/core';
 import { ModalController, Platform } from '@ionic/angular';
 import { GoogleAPIService } from 'src/app/services/google-api.service';
 import { PlaceStorageService } from 'src/app/services/place-storage.service';
@@ -13,34 +13,31 @@ export class PlaceDetailModalPage implements OnInit {
 	@Input() place: google.maps.places.PlaceResult;
 
 	placeDetails: google.maps.places.PlaceResult;
+	placePhotoUrl: string;
 	favourite: boolean = false;
-
+	
 	constructor(
-		public modalController: ModalController,
-		private platform: Platform,
 		private zone: NgZone,
 		private placeStorage: PlaceStorageService,
 		private loadingToast: LoadingToastService,
 		private _googleApiService: GoogleAPIService,
+		public modalController: ModalController,
+		public sanitizer: Sanitizer,
 	) {
-		this.platform.backButton.subscribeWithPriority(0, () => {
-			this.dismiss();
-		})
+		// push modal state to history to prevent back button redirect
+		if (!window.history.state.modal) {
+			const modalState = { modal: true };
+			history.pushState(modalState, null);
+		}
 	}
 
 	ngOnInit() {
 		this.checkIfFavourited();
-		this._googleApiService.getPlaceDetailsByPlaceId(this.place.id)
-			.subscribe((result: google.maps.places.PlaceResult) => {
-				this.zone.run(() => {
-					this.placeDetails = result;
-					console.log(this.placeDetails);
-				})
-			});
 	}
 
-	getPlacePhotoUrl(placePhotos: google.maps.places.PlacePhoto[], landscape: boolean) {
-		return this._googleApiService.getPlacePhotoUrl(placePhotos, landscape);
+	getPlacePhotoUrl(landscape: boolean) {
+		this.placePhotoUrl = this._googleApiService.getPlacePhotoUrl(this.place, landscape);
+		return this.placePhotoUrl;
 	}
 
 	openInMaps() {
@@ -48,7 +45,7 @@ export class PlaceDetailModalPage implements OnInit {
 	}
 
 	savePlace() {
-		this.placeStorage.setPlace(this.place)
+		this.placeStorage.setPlace(this.place, this.placePhotoUrl)
 			.subscribe((result) => {
 				this.favourite = result;
 				if(result){
@@ -59,12 +56,12 @@ export class PlaceDetailModalPage implements OnInit {
 			});
 	}
 
+	@HostListener('window:popstate', ['$event'])
 	dismiss() {
 		this.modalController.dismiss();
 	}
 
 	checkIfFavourited() {
-		console.log(this.favourite);
 		this.placeStorage.getPlaceById(this.place.id).subscribe((result: number) => {
 			if (result >= 0) {
 				this.favourite = true;

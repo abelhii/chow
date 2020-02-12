@@ -5,7 +5,6 @@ import { IonicModule } from '@ionic/angular';
 import { SuggestionsPage } from './suggestions.page';
 import { SuggestionsPageRoutingModule } from './suggestions-routing.module';
 import { SharedModule } from '../shared/shared.module';
-import { PlaceDetailModalPage } from '../shared/place-detail-modal/place-detail-modal.page';
 
 @NgModule({
   imports: [

@@ -14,8 +14,8 @@ import { SharedModule } from '../shared/shared.module';
     CommonModule,
     FormsModule,
     IonicModule,
-    FavouritesPageRoutingModule,
-    SharedModule
+    SharedModule,
+    FavouritesPageRoutingModule
   ],
   declarations: [FavouritesPage]
 })
