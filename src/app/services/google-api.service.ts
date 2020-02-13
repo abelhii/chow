@@ -1,9 +1,8 @@
-import { Injectable, Input, ElementRef } from '@angular/core';
+import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import * as _ from 'lodash';
-import { Platform } from '@ionic/angular';
 import { PlaceFilter, PlaceType } from '../models/filters';
 
 @Injectable({
@@ -24,8 +23,7 @@ export class GoogleAPIService {
 	filterChanged: boolean = false;
 
 	constructor(
-		private http: HttpClient,
-		private platform: Platform
+		private http: HttpClient
 	) { }
 
 	getPlacesByUserLatLng(lat: number, lng: number, filter: PlaceFilter): Observable<any> {

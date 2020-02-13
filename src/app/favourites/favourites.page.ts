@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { PlaceStorageService } from '../services/place-storage.service';
-import { GoogleAPIService } from '../services/google-api.service';
 import { ModalService } from '../services/modal.service';
 import { LoadingToastService } from '../services/loading-toast.service';
 
@@ -15,7 +14,6 @@ export class FavouritesPage implements OnInit {
 
 	constructor(
 		private placesStorage: PlaceStorageService,
-		private _googleApiService: GoogleAPIService,
 		private loadingToast: LoadingToastService,
 		public modalService: ModalService
 	) { }
@@ -29,7 +27,6 @@ export class FavouritesPage implements OnInit {
 			this.places = JSON.parse(result);
 		});
 	}
-
 
 	presentPlaceModal(place: google.maps.places.PlaceResult) {
 		this.modalService.presentPlaceModal(place).then((observable) => {

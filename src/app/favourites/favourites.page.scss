@@ -1,8 +1,19 @@
+ion-header::after {
+	background-image: none;
+}
+
+ion-title {
+	h1 {
+		margin-top: 16px;
+	}
+}
+
 ion-label {
-  h1,
-  h2,
-  h3 {
-    overflow: auto;
-    text-overflow: ellipsis;
-  }
+
+	h1,
+	h2,
+	h3 {
+		overflow: hidden;
+		text-overflow: ellipsis;
+	}
 }
