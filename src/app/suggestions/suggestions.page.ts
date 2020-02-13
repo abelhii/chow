@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, ElementRef, HostListener } from '@angular/core';
 import * as _ from 'lodash';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import { GoogleAPIService } from '../services/google-api.service';
@@ -12,7 +12,7 @@ import { LoadingToastService } from '../services/loading-toast.service';
 	templateUrl: './suggestions.page.html',
 	styleUrls: ['./suggestions.page.scss'],
 })
-export class SuggestionsPage implements OnInit, AfterViewInit {
+export class SuggestionsPage implements OnInit {
 	@ViewChild('suggestionSection', { static: false }) suggestionSection: ElementRef;
 	@ViewChild('suggestionSlides', { static: false }) slider: IonSlides;
 
@@ -54,10 +54,6 @@ export class SuggestionsPage implements OnInit, AfterViewInit {
 		});
 	}
 
-	ngAfterViewInit() {
-		this.adjustMarginTop();
-	}
-
 	getPlacesFromGoogle() {
 		this._googleApiService
 			.getPlacesByUserLatLng(this.currentPosition.coords.latitude, this.currentPosition.coords.longitude, this.filter)
@@ -67,6 +63,7 @@ export class SuggestionsPage implements OnInit, AfterViewInit {
 				})
 				setTimeout(() => {
 					this.getRandomPlace();
+					this.adjustMarginTop();
 				})
 			});
 	}
