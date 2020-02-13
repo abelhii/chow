@@ -1,5 +1,5 @@
-import { Component, OnInit, Input, NgZone, HostListener, Sanitizer } from '@angular/core';
-import { ModalController, Platform } from '@ionic/angular';
+import { Component, OnInit, Input, HostListener, Sanitizer } from '@angular/core';
+import { ModalController } from '@ionic/angular';
 import { GoogleAPIService } from 'src/app/services/google-api.service';
 import { PlaceStorageService } from 'src/app/services/place-storage.service';
 import { LoadingToastService } from 'src/app/services/loading-toast.service';
@@ -17,7 +17,6 @@ export class PlaceDetailModalPage implements OnInit {
 	favourite: boolean = false;
 	
 	constructor(
-		private zone: NgZone,
 		private placeStorage: PlaceStorageService,
 		private loadingToast: LoadingToastService,
 		private _googleApiService: GoogleAPIService,
