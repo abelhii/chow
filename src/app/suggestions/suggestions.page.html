@@ -1,8 +1,8 @@
-<ion-content fullscreen>
+<ion-content>
 
 	<map #map_canvas *ngIf="selectedPlace" [place]="selectedPlace"></map>
 
-	<div *ngIf="suggestionsList.length > 0">
+	<div #suggestionSection id="suggestions-section" *ngIf="suggestionsList.length > 0" [ngStyle]="{'margin-top': marginTopForSuggestionSection}">
 		<ion-toolbar style="margin-bottom: -10px;">
 			<ion-title *ngIf="isEven" innerHtml="{{randomEmoji}} Have you tried"></ion-title>
 			<ion-title *ngIf="!isEven" innerHtml="{{randomEmoji}} You should have"></ion-title>
@@ -41,7 +41,7 @@
 </ion-content>
 
 <ion-footer>
-	<ion-toolbar>
+	<ion-toolbar #toolbar_footer>
 		<ion-buttons slot="start">
 			<ion-back-button defaultHref="home"></ion-back-button>
 			<ion-button [routerLink]="['../favourites']">

@@ -1,33 +1,39 @@
 .reroll-button {
-  bottom: -5%;
+	bottom: -5%;
 
-  ion-fab-button {
-    height: 74px;
-    width: 74px;
-  }
+	ion-fab-button {
+		height: 74px;
+		width: 74px;
+	}
+}
+
+#suggestions-section {
+	background-color: #ffffffb0;
+	position: relative;
 }
 
 .suggestion-card {
-  text-align: left;
-  min-height: 275px;
-  min-width: 95%;
+	background-color: #fff;
+	text-align: left;
+	min-height: 275px;
+	min-width: 95%;
 
-  .card-title {
-    display: grid;
-    grid-template-columns: auto auto;
-    font-weight: 400;
-    font-size: 20px;
-    
-    img {
-      height: 20px;
-      width: auto;
-      margin-left: auto;
-    }
-  }
+	.card-title {
+		display: grid;
+		grid-template-columns: auto auto;
+		font-weight: 400;
+		font-size: 20px;
 
-  ion-card-subtitle {
-    overflow: hidden;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-  }
+		img {
+			height: 20px;
+			width: auto;
+			margin-left: auto;
+		}
+	}
+
+	ion-card-subtitle {
+		overflow: hidden;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+	}
 }

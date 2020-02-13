@@ -27,12 +27,13 @@ export class MapComponent implements OnInit {
 
 	loadMap() {
 		let position: google.maps.LatLng = this.place.geometry.location;
+		let target = { lat: position.lat(), lng: position.lng() };
 		this.map = GoogleMaps.create('map_canvas', {
+			controls: {
+				zoom: false
+			},
 			camera: {
-				target: {
-					lat: position.lat(),
-					lng: position.lng()
-				},
+				target: target,
 				zoom: 10
 			}
 		});
@@ -40,14 +41,13 @@ export class MapComponent implements OnInit {
 
 	markLocation() {
 		let position: google.maps.LatLng = this.place.geometry.location;
+		let target = { lat: position.lat(), lng: position.lng() }
+
 		this.map.clear();
 
-		// Move the map camera to the location with animation
+		// Mark center position of camera
 		this.map.animateCamera({
-			target: {
-				lat: position.lat(),
-				lng: position.lng()
-			},
+			target: target,
 			zoom: 16
 		});
 
@@ -55,11 +55,18 @@ export class MapComponent implements OnInit {
 		let marker: Marker = this.map.addMarkerSync({
 			title: this.place.name,
 			snippet: this.place.rating.toString() + 'stars',
-			position: {
-				lat: position.lat(),
-				lng: position.lng()
-			},
+			position: target,
 			animation: GoogleMapsAnimation.BOUNCE
 		});
+
+		// Set center position of camera to be above suggestions list
+		this.map.fromLatLngToPoint(target).then((result) => {
+			let point = result;
+			point[1] += result[1] / 2;
+
+			this.map.fromPointToLatLng(point).then((latLngResult) => {
+				this.map.setCameraTarget(latLngResult);
+			});
+		})
 	}
 }

@@ -1,8 +1,16 @@
-img {
+ion-img {
     width: 100%;
     max-height: 400px;
     object-fit: cover;
     object-position: center;
+}
+
+ion-avatar {
+    height: 40px;
+    width: 40px;
+    margin-top: 8px;
+    margin-bottom: 8px;
+    margin-right: 16px;
 }
 
 .logo {

@@ -11,6 +11,7 @@ export class ChowImageComponent implements OnChanges {
 	@Input() imgSource: string;
 	@Input() logo: boolean = false;
 	@Input() height: string = '150px';
+	@Input() avatar: boolean = false;
 	imgNotFound: boolean = false;
 
 	constructor() { }

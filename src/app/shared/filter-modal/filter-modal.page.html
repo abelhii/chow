@@ -4,7 +4,9 @@
 			<ion-back-button defaultHref="suggestions" (click)="dismiss(true)"></ion-back-button>
 		</ion-buttons>
 
-		<ion-title>Filter</ion-title>
+		<ion-title>
+			<h1>Filter</h1>
+		</ion-title>
 	</ion-toolbar>
 </ion-header>
 
@@ -26,7 +28,8 @@
 			<ion-label>Radius (in meters)</ion-label>
 		</ion-list-header>
 		<ion-item lines="full">
-			<ion-range min="500" max="2500" value="{{filter.Radius}}" (ionChange)="setRadius($event)" step="500" pin snaps ticks>
+			<ion-range min="500" max="2500" value="{{filter.Radius}}" (ionChange)="setRadius($event)" step="500" pin
+				snaps ticks>
 				<i slot="start" class="fas fa-bullseye" style="font-size:medium"></i>
 				<i slot="end" class="fas fa-bullseye" style="font-size:x-large"></i>
 			</ion-range>

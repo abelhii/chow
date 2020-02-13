@@ -1,4 +1,4 @@
-import { Component, OnInit, NgZone, ViewChild } from '@angular/core';
+import { Component, OnInit, NgZone, ViewChild, ElementRef, AfterViewInit, HostListener } from '@angular/core';
 import * as _ from 'lodash';
 import { Geolocation, Geoposition } from '@ionic-native/geolocation/ngx';
 import { GoogleAPIService } from '../services/google-api.service';
@@ -12,13 +12,17 @@ import { LoadingToastService } from '../services/loading-toast.service';
 	templateUrl: './suggestions.page.html',
 	styleUrls: ['./suggestions.page.scss'],
 })
-export class SuggestionsPage implements OnInit {
+export class SuggestionsPage implements OnInit, AfterViewInit {
+	@ViewChild('suggestionSection', { static: false }) suggestionSection: ElementRef;
 	@ViewChild('suggestionSlides', { static: false }) slider: IonSlides;
 
 	suggestionsList: google.maps.places.PlaceResult[] = [];
 	selectedPlace: google.maps.places.PlaceResult;
+	suggestionsOffsetTop: number;
+
 	isEven: boolean = false;
 	randomEmoji: string;
+	marginTopForSuggestionSection: string;
 
 	currentPosition: Geoposition;
 	filter: PlaceFilter = {
@@ -50,6 +54,10 @@ export class SuggestionsPage implements OnInit {
 		});
 	}
 
+	ngAfterViewInit() {
+		this.adjustMarginTop();
+	}
+
 	getPlacesFromGoogle() {
 		this._googleApiService
 			.getPlacesByUserLatLng(this.currentPosition.coords.latitude, this.currentPosition.coords.longitude, this.filter)
@@ -66,7 +74,7 @@ export class SuggestionsPage implements OnInit {
 	getRandomPlace() {
 		this.selectedPlace = _.sample(this.suggestionsList);
 		this.slider.slideTo(this.suggestionsList.indexOf(this.selectedPlace), 300);
-		
+
 		this.getRandomEmoji();
 	}
 
@@ -106,4 +114,14 @@ export class SuggestionsPage implements OnInit {
 			})
 		})
 	}
+
+	@HostListener('window:resize', ['$event'])
+	adjustMarginTop() {
+		setTimeout(() => {
+			let deviceHeight = this.suggestionSection.nativeElement.offsetParent.offsetHeight;
+			let suggestionsSectionHeight = this.suggestionSection.nativeElement.offsetHeight;
+
+			this.marginTopForSuggestionSection = (deviceHeight - suggestionsSectionHeight) + 'px';
+		}, 500);
+	}	
 }

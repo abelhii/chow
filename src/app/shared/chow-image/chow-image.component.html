@@ -1,11 +1,25 @@
 <div style="position: relative">
-  <img 
-    src="{{imgSource}}"
-    [class.no-image]="imgNotFound && !logo"
-    [class.logo]="logo"
-    [ngStyle]="{'height': height}"
-    (error)="updateSrc()">
-  <span class="no-image-text" *ngIf="imgNotFound && !logo">
-    Couldn't find an image
-  </span>
+	<ion-img 
+		*ngIf="!avatar"
+		src="{{imgSource}}"
+		[class.no-image]="imgNotFound && !logo"
+		[class.logo]="logo"
+		[ngStyle]="{'height': height}"
+		(error)="updateSrc()">
+	</ion-img>
+
+	<span class="no-image-text" *ngIf="imgNotFound && !logo">
+		Couldn't find an image
+	</span>
+
+	<!-- Avatar img for favourites list -->
+	<ion-avatar *ngIf="avatar">
+		<ion-img
+			src="{{imgSource}}"
+			[class.no-image]="imgNotFound && !logo"
+			[class.logo]="logo"
+			[ngStyle]="{'height': height}"
+			(error)="updateSrc()">
+		</ion-img>
+	</ion-avatar>
 </div>

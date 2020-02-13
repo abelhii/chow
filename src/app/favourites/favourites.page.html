@@ -4,16 +4,28 @@
 			<ion-back-button defaultHref="suggestions"></ion-back-button>
 		</ion-buttons>
 
-		<ion-title>Favourites</ion-title>
+		<ion-title>
+			<h1>Favourites</h1>
+		</ion-title>
 	</ion-toolbar>
 </ion-header>
 
 <ion-content>
-	<ion-title *ngIf="!places">
+	<ion-title *ngIf="!places || places.length <= 0">
 		<h1>No favourites yet!</h1>
 	</ion-title>
 	<ion-list *ngIf="places && places.length > 0">
-		<ion-item *ngFor="let place of places" detail="true" (click)="presentPlaceModal(place)">
+		<ion-card *ngFor="let place of places" (click)="presentPlaceModal(place)" class="ion-activatable">
+			<ion-item detail="true">
+				<chow-image [imgSource]="place.photoUrl" [avatar]="true" height="100%"></chow-image>
+				<ion-label>
+					<h2>{{place.name}}</h2>
+					<h3>{{place.vicinity}}</h3>
+				</ion-label>
+			</ion-item>
+			<ion-ripple-effect></ion-ripple-effect>
+		</ion-card>
+		<!-- <ion-item *ngFor="let place of places" detail="true" (click)="presentPlaceModal(place)">
 			<ion-avatar slot="start">
 				<ion-img src="{{place.photoUrl}}"></ion-img>
 			</ion-avatar>
@@ -21,6 +33,6 @@
 				<h2>{{place.name}}</h2>
 				<h3>{{place.vicinity}}</h3>
 			</ion-label>
-		</ion-item>
+		</ion-item> -->
 	</ion-list>
 </ion-content>
