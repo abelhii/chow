@@ -2,8 +2,6 @@
     height: 100%;
     width: 100%;
     display: grid;
-    grid-template-rows: 4;
-    grid-template-columns: 3;
     grid-template-areas:
         "2-top-left 2-top-center 2-top-right"
         "top-left top-center top-right"
@@ -19,17 +17,24 @@
     }
 }
 
+.bg-style-normal {
+    background-color: var(--ion-color-primary);
+    color: var(--ion-color-primary-contrast);
+}
+
+.bg-style-inverse {
+    background-color: var(--ion-color-primary-contrast);
+    color: var(--ion-color-primary);
+}
+
 .logo {
     grid-area: top-center;
-    ion-img {
-        margin: auto;
-        width: 100px;
-    }
 }
 
 .title {
     grid-area: center;
     text-align: center;
+    text-transform: uppercase;
 
     h1,
     h3,
@@ -40,6 +45,10 @@
 
 .randomize-button {
     grid-area: bot-center;
+
+    ion-button {
+        --border-radius: 50px;
+    }
 
     ion-fab-button {
         height: 74px;
