@@ -5,23 +5,21 @@
 		</div>
 		<div class="title grid-item">
 			<ion-title>
-				<!-- <h3>ready to</h3> -->
-				<h1>Ready</h1>
-				<h1>To</h1>
+				<h3>ready to</h3>
 				<h1>Chow?</h1>
 			</ion-title>
 
-			<!-- <h6>Click the paw below</h6> -->
+			<h6 [innerHTML]="fyi"></h6>
 		</div>
 		<div class="randomize-button grid-item">
-			<ion-buttons>
+			<!-- <ion-buttons>
 				<ion-button color="inverse" fill="solid" size="large" [routerLink]="['../suggestions']">
 					<label>Yes, tell me what to eat!</label>
 				</ion-button>
-			</ion-buttons>
-			<!-- <ion-fab-button [routerLink]="['../suggestions']">
+			</ion-buttons> -->
+			<ion-fab-button color="inverse" [routerLink]="['../suggestions']">
 				<i class="fas fa-paw" style="font-size:2em;"></i>
-			</ion-fab-button> -->
+			</ion-fab-button>
 		</div>
 	</div>
 </ion-content>
