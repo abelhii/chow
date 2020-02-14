@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  googleApiKey: "AIzaSyD1Ybix0rx1Uw3Cov4yArEuIWKWw5PCXEk",
+  googleApiKey: "AIzaSyCGTe7PD4QhT_s4B8R40RGZeeWRmqmnD_8",
   googleMapsUrl: "https://www.google.com/maps/search/?api=1&query=",
   placePhotoUrl: "https://maps.googleapis.com/maps/api/place/photo?",
   unsplashChowUrl: "https://source.unsplash.com/collection/4927658/"
