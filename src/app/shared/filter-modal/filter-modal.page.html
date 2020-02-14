@@ -28,7 +28,7 @@
 			<ion-label>Radius (in meters)</ion-label>
 		</ion-list-header>
 		<ion-item lines="full">
-			<ion-range min="500" max="2500" value="{{filter.Radius}}" (ionChange)="setRadius($event)" step="500" pin
+			<ion-range min="500" max="5000" value="{{filter.Radius}}" (ionChange)="setRadius($event)" step="500" pin
 				snaps ticks>
 				<i slot="start" class="fas fa-bullseye" style="font-size:medium"></i>
 				<i slot="end" class="fas fa-bullseye" style="font-size:x-large"></i>

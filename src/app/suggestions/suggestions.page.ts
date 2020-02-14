@@ -27,7 +27,7 @@ export class SuggestionsPage implements OnInit {
 	currentPosition: Geoposition;
 	filter: PlaceFilter = {
 		Type: PlaceType.Restaurant,
-		Radius: 1000,
+		Radius: 2500,
 		OpenNow: false
 	};
 
@@ -119,6 +119,6 @@ export class SuggestionsPage implements OnInit {
 			let suggestionsSectionHeight = this.suggestionSection.nativeElement.offsetHeight;
 
 			this.marginTopForSuggestionSection = (deviceHeight - suggestionsSectionHeight) + 'px';
-		}, 500);
+		}, 200);
 	}	
 }
