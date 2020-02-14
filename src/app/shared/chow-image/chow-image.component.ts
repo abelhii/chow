@@ -14,7 +14,7 @@ export class ChowImageComponent implements OnChanges {
 	@Input() avatar: boolean = false;
 	imgNotFound: boolean = false;
 
-	constructor() { }
+	constructor() {}
 
 	ngOnChanges() {
 		setTimeout(() => {
@@ -38,5 +38,4 @@ export class ChowImageComponent implements OnChanges {
 			this.imgSource = environment.unsplashChowUrl;
 		});
 	}
-
 }
