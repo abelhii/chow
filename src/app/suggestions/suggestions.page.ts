@@ -70,7 +70,7 @@ export class SuggestionsPage implements OnInit {
 
 	getRandomPlace() {
 		this.selectedPlace = _.sample(this.suggestionsList);
-		this.slider.slideTo(this.suggestionsList.indexOf(this.selectedPlace), 300);
+		this.slider.slideTo(this.suggestionsList.indexOf(this.selectedPlace), 600);
 
 		this.getRandomEmoji();
 	}
@@ -119,6 +119,6 @@ export class SuggestionsPage implements OnInit {
 			let suggestionsSectionHeight = this.suggestionSection.nativeElement.offsetHeight;
 
 			this.marginTopForSuggestionSection = (deviceHeight - suggestionsSectionHeight) + 'px';
-		}, 200);
+		}, 400);
 	}	
 }
