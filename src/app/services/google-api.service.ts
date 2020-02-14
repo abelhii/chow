@@ -31,7 +31,7 @@ export class GoogleAPIService {
 
 		let request: google.maps.places.PlaceSearchRequest = {
 			location: userLocation,
-			radius: filter.Radius || 1000,
+			radius: filter.Radius || 2500,
 			keyword: filter.Type || PlaceType.Restaurant,
 			openNow: filter.OpenNow,
 			type: 'food'
@@ -51,7 +51,6 @@ export class GoogleAPIService {
 				this.prevPlaceRequest = request;
 				this.placesService.nearbySearch(request, function (results, status) {
 					if (status == google.maps.places.PlacesServiceStatus.OK) {
-						console.log(results);
 						dataSourceLocal.next(results);
 						observer.next(results);
 					} else {
