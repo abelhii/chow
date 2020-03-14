@@ -7,7 +7,7 @@ import { Observable } from 'rxjs/internal/Observable';
 })
 export class PlaceStorageService {
 
-	constructor(private storage: Storage,) { }
+	constructor(private storage: Storage) { }
 
 	getPlaces(): Promise<any> {
 		return this.storage.get("places");

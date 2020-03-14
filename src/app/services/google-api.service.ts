@@ -77,10 +77,11 @@ export class GoogleAPIService {
 
 		if (photos && photos[0] != null) {
 			let chosenPhoto = _.sample(photos);
+			if (place.photoUrl) {
+				return place.photoUrl;
+			}
 			if (typeof chosenPhoto.getUrl === "function") {
 				return chosenPhoto.getUrl({ maxHeight: 500, maxWidth: 500 });
-			} else {
-				return place.photoUrl;
 			}
 		} else {
 			return null;
@@ -122,7 +123,7 @@ export class GoogleAPIService {
 				'type',
 				'url']
 		}
-		
+
 		this.initialisePlaceService();
 		return new Observable<google.maps.places.PlaceResult>((observer) => {
 			this.placesService.getDetails(request, function (place, status) {
