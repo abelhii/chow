@@ -123,7 +123,6 @@ export class GoogleAPIService {
 				'type',
 				'url']
 		}
-
 		this.initialisePlaceService();
 		return new Observable<google.maps.places.PlaceResult>((observer) => {
 			this.placesService.getDetails(request, function (place, status) {
