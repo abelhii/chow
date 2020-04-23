@@ -1,13 +1,13 @@
 <ion-content fullscreen>
 	<ion-toolbar>
 		<ion-buttons slot="start">
-			<ion-button (click)="dismiss(true)">
+			<ion-button (click)="dismiss()">
 				<ion-icon name="arrow-back"></ion-icon>
 			</ion-button>
 		</ion-buttons>
 	</ion-toolbar>
 
-	<chow-image [imgSource]="getPlacePhotoUrl(place.photos, true)" height="100%"></chow-image>
+	<chow-image [imgSource]="getPlacePhotoUrl(true)" height="100%"></chow-image>
 	<ion-item lines="none">
 		<ion-label>
 			<h1>{{place.name}}</h1>

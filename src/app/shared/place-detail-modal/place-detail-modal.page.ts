@@ -1,8 +1,9 @@
-import { Component, OnInit, Input, HostListener, Sanitizer } from '@angular/core';
+import { Component, OnInit, Input, HostListener } from '@angular/core';
 import { ModalController } from '@ionic/angular';
 import { GoogleAPIService } from 'src/app/services/google-api.service';
 import { PlaceStorageService } from 'src/app/services/place-storage.service';
 import { LoadingToastService } from 'src/app/services/loading-toast.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
 	selector: 'app-place-detail-modal',
@@ -21,7 +22,7 @@ export class PlaceDetailModalPage implements OnInit {
 		private loadingToast: LoadingToastService,
 		private _googleApiService: GoogleAPIService,
 		public modalController: ModalController,
-		public sanitizer: Sanitizer,
+		public sanitizer: DomSanitizer,
 	) {
 		// push modal state to history to prevent back button redirect
 		if (!window.history.state.modal) {
@@ -55,7 +56,7 @@ export class PlaceDetailModalPage implements OnInit {
 			});
 	}
 
-	@HostListener('window:popstate', ['$event'])
+	@HostListener('window:popstate', [])
 	dismiss() {
 		this.modalController.dismiss();
 	}

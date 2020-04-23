@@ -111,7 +111,7 @@ export class SuggestionsPage implements OnInit {
 		})
 	}
 
-	@HostListener('window:resize', ['$event'])
+	@HostListener('window:resize', [])
 	adjustMarginTop() {
 		setTimeout(() => {
 			let deviceHeight = this.suggestionSection.nativeElement.offsetParent.offsetHeight;
