@@ -27,8 +27,7 @@ export class SuggestionsPage implements OnInit {
 	currentPosition: Geoposition;
 	filter: PlaceFilter = {
 		Type: PlaceType.Restaurant,
-		Radius: 2500,
-		OpenNow: false
+		Radius: 2500
 	};
 
 	slideOptions = {

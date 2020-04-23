@@ -42,8 +42,7 @@ export class FilterModalPage implements OnInit {
 			this.modalController.dismiss();
 			return;
 		}
-
-		console.log(this.filter);
+		
 		this.modalController.dismiss(this.filter);
 	}
 }

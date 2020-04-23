@@ -33,7 +33,6 @@ export class GoogleAPIService {
 			location: userLocation,
 			radius: filter.Radius || 2500,
 			keyword: filter.Type || PlaceType.Restaurant,
-			openNow: filter.OpenNow,
 			type: 'food'
 		};
 

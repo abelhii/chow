@@ -50,7 +50,6 @@ export class PlaceStorageService {
 					isSaved = false;
 				}
 			}).finally(() => {
-				console.log(placesList);
 				this.storage.set("places", JSON.stringify(placesList)).then(() => {
 					observer.next(isSaved);
 				});

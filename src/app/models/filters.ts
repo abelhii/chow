@@ -1,7 +1,6 @@
 export interface PlaceFilter {
     Radius?: number;
     Type?: PlaceType;
-    OpenNow?: boolean;
 }
 
 export enum PlaceType {
